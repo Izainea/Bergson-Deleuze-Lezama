@@ -1,0 +1,29 @@
+(function(){
+const plates=[
+ ['actualizacion','Crear sin copiar','Un contraste entre la realización de lo posible y la actualización de lo virtual. Las formas del dibujo son ejemplos, no objetos descritos por Deleuze.','capV','El bergsonismo, cap. V, pp. 101–105.'],
+ ['multiplicidades','Distinguir las multiplicidades','Compara los problemas antes que los vocabularios: medida en Riemann, división y cambio de naturaleza en Bergson.','capII','El bergsonismo, cap. II; Riemann, I y III.3.'],
+ ['memoria','Conservar y actualizar','El dibujo ayuda a separar coexistencia virtual e imagen presente. No convierte la memoria en un archivo espacial.','memoria','El bergsonismo, cap. III y cierre del cap. V.'],
+ ['duracion','Unidades y experiencia','Al dividir una melodía en notas aisladas puedes perder su cualidad de conjunto. El ejemplo orienta la pregunta; no sustituye el argumento.','duraciones','El bergsonismo, caps. II y IV.'],
+ ['germen','El retorno creador','El resultado vuelve sobre sus condiciones. Pregunta si esa operación ilumina la creación sin confundirla con una ramificación biológica.','preludio','Preludio, Confluencias, pp. 383–384.'],
+ ['oblicua','La vivencia oblicua','Una conexión inesperada interrumpe la lectura lineal de las causas. La diagonal es una interpretación gráfica.','preludio','Preludio, Confluencias, pp. 382–383.'],
+ ['retorno','Comenzar dos veces','Analiza qué cambia entre el encuentro con el maestro y la voz que vuelve tras su muerte. Una recurrencia formal puede abrir otra posibilidad.','paradiso','Paradiso, caps. XIII–XIV; paginación según tu ejemplar.'],
+ ['argumento','Una comparación defendible','No basta el parecido: necesitas una relación precisa, evidencia y una objeción que delimite la tesis.','taller','Propuesta metodológica de esta ruta.']
+];
+function plate(p){return '<article class="atlas-card plate"><img src="assets/atlas/'+p[0]+'.svg" alt="'+esc(p[1])+'" loading="lazy"><h3>'+p[1]+'</h3><p>'+p[2]+'</p><p class="diagram-source">'+p[4]+'</p><button class="btn" data-go="'+p[3]+'">Leer la estación →</button><a class="btn ghost" href="assets/atlas/'+p[0]+'.svg" download>Guardar gráfico</a></article>'}
+const oldStation=viewStation;
+viewStation=function(s){const p=plates.find(p=>p[3]===s.id);return oldStation(s)+(p?'<section class="station-illustration">'+plate(p)+'</section>':'');};
+const oldMap=viewMapa;
+viewMapa=function(){return oldMap()+'<section class="atlas-card extra-intro"><div class="eyebrow">Nuevas herramientas de lectura</div><h2>Un atlas para volver a los textos</h2><p>Ocho láminas y un experimento con la medida. Las estaciones 9–11 profundizan la ruta; la 12 ayuda a cerrar el argumento. Puedes visitarlas cuando las necesites.</p><div class="pdfrow"><button class="btn pri" data-go="atlas">Abrir atlas visual →</button><button class="btn" data-vault>Mis PDF con clave</button></div><p class="photo-note">Entrega: 28 de octubre · presentación: 31 de octubre · 4.000–5.000 palabras · 25–30 minutos. Ajusta el hito si el profesor comunica una excepción.</p></section>';};
+const oldArmar=viewArmar;
+viewArmar=function(){return '<div class="alert"><div><strong>Dos versiones, dos medidas.</strong> Entrega escrita: 4.000–5.000 palabras, a más tardar el 28 de octubre. Presentación: 25–30 minutos el 31. Prepara una versión oral y mídela en voz alta.</div></div>'+oldArmar()};
+function atlas(){return '<section class="hero"><div class="eyebrow">Atlas visual · 08 láminas + 01 experimento</div><h1>Pensar con imágenes, volver al pasaje.</h1><p class="lead">Diagramas conceptuales para formular relaciones y encontrar sus límites. Cada lámina remite a una estación y explicita qué clase de comparación propone.</p></section><section class="atlas-card metric-lab"><h2>Un mismo intervalo, distintas longitudes</h2><p>En el intervalo [0, 1], elige una métrica <strong>ds² = (1 + a·x²) dx²</strong>. Cambia la longitud sin cambiar los puntos del intervalo.</p><label for="metric-a">Parámetro a: <output id="metric-value">0</output></label><input id="metric-a" type="range" min="0" max="4" step="0.1" value="0"><div class="metric-bars"><div><span>Euclídea</span><i style="width:40%"></i><b>1,000</b></div><div><span>Elegida</span><i id="metric-bar" style="width:40%"></i><b id="metric-length">1,000</b></div></div><p class="photo-note">L(a) = ∫₀¹ √(1 + a·x²) dx. Ejemplo matemático propio para distinguir variedad y métrica. No es un modelo de la duración bergsoniana. Aquí no se estudia la geometría de Weyl.</p></section><div class="plate-grid">'+plates.map(plate).join('')+'</div>'}
+const oldRender=render;
+render=function(){if(view==='atlas'){app.innerHTML=atlas();document.getElementById('route-rail').innerHTML=railHTML();bind();bindVisual();document.querySelectorAll('.toplinks [data-go]').forEach(b=>b.classList.toggle('on',b.dataset.go===view));}else oldRender();
+ const rail=document.getElementById('route-rail');if(!rail.querySelector('[data-go="atlas"]')){const b=document.createElement('button');b.dataset.go='atlas';b.textContent='Atlas visual';b.onclick=()=>go('atlas');rail.append(b);}
+ document.querySelectorAll('[data-vault]').forEach(b=>b.onclick=()=>window.openVault?.());
+ const range=document.getElementById('metric-a');if(range)range.oninput=()=>{const a=Number(range.value),r=Math.sqrt(a),len=a===0?1:(Math.sqrt(1+a)+Math.asinh(r)/r)/2;document.getElementById('metric-value').value=a.toLocaleString('es-CO');document.getElementById('metric-length').textContent=len.toFixed(3).replace('.',',');document.getElementById('metric-bar').style.width=(len*40)+'%';};
+ document.querySelectorAll('[data-chapgo]').forEach(el=>el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});
+};
+const top=document.querySelector('.toplinks');const b=document.createElement('button');b.className='chip';b.dataset.go='atlas';b.textContent='Atlas';top.prepend(b);
+render();
+})();

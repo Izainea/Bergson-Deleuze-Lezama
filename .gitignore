@@ -1,0 +1,26 @@
+.ruta_qa*
+__pycache__/
+.DS_Store
+# Documentos y configuración exclusivamente locales
+.local/
+local/
+private/
+pdf/
+pdfs/
+pdf-cifrados/
+*.pdf
+*.PDF
+*.bin
+*.ruta-pdf
+*.zip
+*.local.json
+paths.json
+source-map.json
+private-map.json
+vault-manifest.json
+vault-check.*
+cipher-files.js
+public-files.js
+.env
+.env.*
+dist/

@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bergson · Deleuze · Lezama — Ruta de lecturas</title>
+<style>
+:root{
+  --paper:#f5f6fb; --paper2:#eceef8; --card:#ffffff; --ink:#151a2d; --ink2:#454c66; --muted:#7a8099;
+  --line:#dfe2ef; --accent:#4b3fd1; --accent2:#e9e7fd;
+  --gold:#c76a06; --gold2:#fdf0dc; --teal:#0b8a63; --teal2:#ddf4eb; --violet:#c42a6c; --violet2:#fbe3ee;
+  --ok:#0b8a63; --ok2:#ddf4eb;
+  --shadow:0 1px 2px rgba(21,26,45,.05),0 10px 28px rgba(21,26,45,.07);
+  --serif:"PT Sans","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --sans:"PT Sans","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#10121c; --paper2:#171a28; --card:#1b1f30; --ink:#e9ebf5; --ink2:#c0c5da; --muted:#8c92ab;
+  --line:#2b3048; --accent:#9d95ff; --accent2:#272449;
+  --gold:#f2a94a; --gold2:#3a2a14; --teal:#4fd1a5; --teal2:#14322a; --violet:#f27bb0; --violet2:#3a1a2a;
+  --ok:#4fd1a5; --ok2:#14322a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.3);}}
+:root[data-theme="dark"]{
+  --paper:#10121c; --paper2:#171a28; --card:#1b1f30; --ink:#e9ebf5; --ink2:#c0c5da; --muted:#8c92ab;
+  --line:#2b3048; --accent:#9d95ff; --accent2:#272449;
+  --gold:#f2a94a; --gold2:#3a2a14; --teal:#4fd1a5; --teal2:#14322a; --violet:#f27bb0; --violet2:#3a1a2a;
+  --ok:#4fd1a5; --ok2:#14322a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.3);}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font:17px/1.65 var(--sans)}
+button{font:inherit;color:inherit}
+a{color:var(--accent)}
+
+.shell{display:grid;grid-template-columns:minmax(0,1fr);min-height:100vh}
+.shell.split{grid-template-columns:minmax(0,1fr) minmax(0,46%)}
+.main{min-width:0}
+.viewer{position:sticky;top:0;height:100vh;border-left:1px solid var(--line);background:var(--paper2);display:none;flex-direction:column}
+.shell.split .viewer{display:flex}
+.vbar{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--card)}
+.vbar .vt{flex:1;min-width:0;font:700 .9rem var(--sans);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vbar .vt small{display:block;font:400 .72rem var(--mono);color:var(--muted)}
+.viewer iframe{flex:1;width:100%;border:0;background:#fff}
+
+header.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:14px;padding:10px 28px;max-width:1100px;margin:0 auto}
+.brand{font:500 .9rem var(--mono);letter-spacing:.02em;white-space:nowrap}
+.brand span{color:var(--accent)}
+.toplinks{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font:500 .78rem var(--mono);cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px 100px}
+
+.hero{padding:44px 0 20px}
+.eyebrow{font:500 .74rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font:700 clamp(2.1rem,4.8vw,3.4rem)/1.05 var(--sans);letter-spacing:-.02em;margin:10px 0 14px;max-width:16ch}
+.hero p.lead{font:400 1.15rem/1.6 var(--sans);color:var(--ink2);max-width:62ch;margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px;box-shadow:var(--shadow);min-width:150px}
+.stat b{display:block;font:700 1.75rem/1 var(--sans)}
+.stat span{font:400 .74rem var(--mono);color:var(--muted)}
+.ring{--p:0;width:54px;height:54px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring i{width:42px;height:42px;border-radius:50%;background:var(--card);display:grid;place-items:center;font:600 .74rem var(--mono);font-style:normal}
+.stat.prog{display:flex;align-items:center;gap:14px}
+
+.map{position:relative;margin:30px 0 10px;padding:26px 22px 18px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.map h2{font:700 1.25rem var(--sans);margin:0 0 4px}
+.map .hint{font-size:.92rem;color:var(--muted);margin:0 0 18px}
+.line{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.node{position:relative;text-align:left;border:1px solid var(--line);background:var(--paper);border-radius:16px;padding:14px 14px 12px;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s}
+.node:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:var(--shadow)}
+.node .num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font:600 .8rem var(--mono);background:var(--card);border:2px solid var(--line);margin-bottom:10px}
+.node.ess .num{border-color:var(--accent);color:var(--accent)}
+.node.obl .num{border-color:var(--gold);color:var(--gold)}
+.node.rec .num{border-color:var(--teal);color:var(--teal)}
+.node.opt .num{border-color:var(--violet);color:var(--violet)}
+.node.done .num{background:var(--ok);border-color:var(--ok);color:#fff}
+.node .nt{font:700 1rem/1.25 var(--sans);display:block}
+.node .nm{font:400 .7rem var(--mono);color:var(--muted);display:block;margin-top:4px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font:400 .74rem var(--mono);color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+.station{padding-top:28px}
+.sthead{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;margin-bottom:6px}
+.bignum{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font:600 1.6rem var(--mono);color:#fff;background:var(--accent)}
+.bignum.obl{background:var(--gold)} .bignum.rec{background:var(--teal)} .bignum.opt{background:var(--violet)}
+.sthead h2{font:700 clamp(1.7rem,3.2vw,2.3rem)/1.12 var(--sans);letter-spacing:-.015em;margin:2px 0 8px}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font:500 .72rem var(--mono);padding:5px 10px;border-radius:999px;background:var(--paper2);color:var(--ink2)}
+.badge.ess{background:var(--accent2);color:var(--accent)} .badge.obl{background:var(--gold2);color:var(--gold)}
+.badge.rec{background:var(--teal2);color:var(--teal)} .badge.opt{background:var(--violet2);color:var(--violet)}
+
+.idea{margin:22px 0;padding:22px 26px;border-radius:20px;background:linear-gradient(135deg,var(--accent2),var(--paper2));border:1px solid var(--line)}
+.idea .lab{font:500 .7rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.idea p{font:400 1.32rem/1.5 var(--sans);margin:8px 0 0}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:26px 0 22px;overflow-x:auto;scrollbar-width:none}
+.tabs button{border:0;background:none;padding:10px 14px;font:700 .95rem var(--sans);color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tabs button .ic{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font:500 .68rem var(--mono);background:var(--paper2)}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button[aria-selected="true"] .ic{background:var(--accent);color:#fff}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;box-shadow:var(--shadow);margin:0 0 16px}
+.card h3{font:700 1.15rem var(--sans);margin:0 0 10px}
+.prose{font:400 1.06rem/1.7 var(--sans);color:var(--ink)}
+.prose p{margin:0 0 12px}
+.muted{color:var(--muted)}
+
+.guide{list-style:none;margin:0;padding:0;position:relative}
+.guide:before{content:"";position:absolute;left:19px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.guide li{position:relative;padding:0 0 18px 54px}
+.guide .gd{position:absolute;left:8px;top:2px;width:24px;height:24px;border-radius:50%;background:var(--card);border:2px solid var(--accent);display:grid;place-items:center;font:600 .64rem var(--mono);color:var(--accent)}
+.guide .gp{font:500 .74rem var(--mono);color:var(--accent);letter-spacing:.04em}
+.guide .gh{font:700 1.08rem/1.35 var(--sans);margin:2px 0 4px}
+.guide .gx{font:400 1rem/1.6 var(--sans);color:var(--ink2);margin:0}
+.look{display:inline-flex;gap:6px;align-items:center;margin-top:8px;font:500 .74rem var(--mono);color:var(--teal);background:var(--teal2);border:0;border-radius:999px;padding:5px 11px;cursor:pointer}
+
+.concepts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.concept{border-radius:16px;padding:16px;background:var(--paper2);border:1px solid var(--line)}
+.concept b{display:block;font:700 1.06rem var(--sans);margin-bottom:4px}
+.concept span{font:400 .96rem/1.55 var(--sans);color:var(--ink2)}
+.versus{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin:6px 0 16px}
+.versus .vs{display:grid;place-items:center;font:500 .74rem var(--mono);color:var(--muted)}
+.versus .col{border-radius:16px;padding:16px;border:1px solid var(--line)}
+.versus .col.a{background:var(--accent2)} .versus .col.b{background:var(--teal2)}
+.versus h4{margin:0 0 6px;font:700 1.08rem var(--sans)}
+.versus ul{margin:0;padding-left:18px;font-size:.98rem}
+
+.quote{position:relative;margin:0 0 14px;padding:20px 22px 16px 54px;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.quote:before{content:"“";position:absolute;left:16px;top:6px;font:700 3.4rem/1 var(--sans);color:var(--accent);opacity:.4}
+.quote q{quotes:none;font:italic 400 1.16rem/1.55 var(--sans);display:block}
+.quote .qm{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px;font:400 .74rem var(--mono);color:var(--muted)}
+.quote .qm button{border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:4px 10px;font:500 .72rem var(--mono);cursor:pointer}
+.quote .qm button:hover{border-color:var(--accent);color:var(--accent)}
+.quote .why{font:400 .95rem/1.5 var(--sans);color:var(--ink2);margin-top:8px}
+
+.flash{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.fc{perspective:900px;height:210px;cursor:pointer;border:0;background:none;padding:0;text-align:left;width:100%}
+.fc .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .in{transform:rotateY(180deg)}
+.fc .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:18px;display:flex;flex-direction:column;border:1px solid var(--line);box-shadow:var(--shadow);overflow:auto}
+.fc .front{background:var(--card)}
+.fc .back{background:var(--accent2);transform:rotateY(180deg)}
+.fc .k{font:500 .66rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.fc .back .k{color:var(--accent)}
+.fc .front p{font:700 1.06rem/1.4 var(--sans);margin:0}
+.fc .back p{font:400 .98rem/1.5 var(--sans);margin:0}
+.fc .tap{margin-top:auto;font:400 .7rem var(--mono);color:var(--muted)}
+.selfscore{display:flex;align-items:center;gap:10px;margin:10px 0 0;font:400 .76rem var(--mono);color:var(--muted)}
+
+textarea{width:100%;min-height:180px;font:400 1.02rem/1.6 var(--sans);padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);resize:vertical}
+textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.saved{font:400 .74rem var(--mono);color:var(--ok);height:1.2em;margin-top:6px}
+
+.alert{display:flex;gap:12px;padding:14px 16px;border-radius:14px;background:var(--gold2);border:1px solid var(--line);margin:0 0 16px;font-size:.98rem}
+.alert .ai{color:var(--gold);font-size:1.1rem}
+
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 15px;font:700 .92rem var(--sans);cursor:pointer;text-decoration:none;color:var(--ink)}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .btn.pri{color:#10121c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.pri{color:#10121c}}
+.btn.ghost{background:transparent}
+.pdfrow{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 0}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px;padding-top:20px;border-top:1px solid var(--line)}
+.donebox{display:flex;align-items:center;gap:10px;font:700 .95rem var(--sans);cursor:pointer;padding:10px 14px;border-radius:12px;background:var(--ok2);color:var(--ok)}
+.donebox input{width:18px;height:18px;accent-color:var(--ok)}
+
+.timeline{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px;margin:10px 0 6px}
+.tl{border:0;cursor:pointer;border-radius:10px;padding:10px 2px 8px;font:600 .74rem var(--mono);color:var(--ink2);text-align:center;transition:transform .12s}
+.tl:hover{transform:translateY(-2px)}
+.tl.m1{background:var(--accent2)} .tl.m2{background:var(--teal2)} .tl.m3{background:var(--gold2)} .tl.m4{background:var(--violet2)}
+.tl.on{outline:2px solid var(--ink);outline-offset:1px}
+.tl.must:after{content:"●";display:block;font-size:.55rem;color:var(--violet);line-height:1}
+.movs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px;font:400 .72rem var(--mono)}
+.movs div{padding:8px 10px;border-radius:10px}
+.movs b{display:block;font:700 .95rem var(--sans)}
+.chapcard{border-radius:18px;padding:22px 24px;border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.chapcard .ch{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.chapcard .roman{font:600 1.9rem/1 var(--mono);color:var(--accent)}
+.chapcard h4{font:700 1.4rem/1.2 var(--sans);margin:0}
+.chapcard .pp{margin-left:auto;font:400 .74rem var(--mono);color:var(--muted)}
+.chapnav{display:flex;justify-content:space-between;margin-top:14px;gap:8px}
+
+.tree{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fam{border-radius:18px;padding:16px;border:1px solid var(--line)}
+.fam.c{background:var(--accent2)} .fam.o{background:var(--teal2)}
+.fam h4{margin:0 0 10px;font:700 1.15rem var(--sans)}
+.gen{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0;align-items:center}
+.gen .p{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:5px 9px;font:400 .92rem var(--sans)}
+.gen .p.k{border-color:var(--accent);font-weight:700}
+.gen .arrow{color:var(--muted);font-size:.8rem;width:100%;padding-left:10px}
+.union{text-align:center;padding:14px;border-radius:18px;background:var(--card);border:2px dashed var(--accent);margin-bottom:16px}
+.union b{font:700 1.2rem var(--sans)}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.person{border-radius:16px;padding:14px 16px;background:var(--card);border:1px solid var(--line)}
+.person b{display:block;font:700 1.08rem var(--sans)}
+.person em{font:500 .68rem var(--mono);font-style:normal;color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.person p{margin:6px 0 0;font-size:.95rem;color:var(--ink2)}
+.threads{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.thread{border-radius:16px;padding:16px;background:var(--paper2);border:1px solid var(--line)}
+.thread b{display:block;font:700 1.08rem var(--sans);margin-bottom:4px}
+.thread span{font-size:.96rem;color:var(--ink2)}
+.thread .chs{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.thread .chs i{font:500 .68rem var(--mono);font-style:normal;padding:3px 7px;border-radius:6px;background:var(--card);border:1px solid var(--line);cursor:pointer}
+
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.book{display:flex;flex-direction:column;gap:6px;border-radius:16px;padding:16px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.book b{font:700 1.04rem/1.3 var(--sans)}
+.book span{font:400 .74rem var(--mono);color:var(--muted)}
+.book .pdfrow{margin-top:auto;padding-top:6px}
+.libgroup{font:500 .74rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:26px 0 10px}
+
+.choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.choice{position:relative;border-radius:16px;padding:16px;border:2px solid var(--line);background:var(--card);cursor:pointer}
+.choice input{position:absolute;opacity:0}
+.choice.on{border-color:var(--accent);background:var(--accent2)}
+.choice b{display:block;font:700 1.05rem var(--sans);margin-bottom:4px}
+.choice span{font-size:.95rem;color:var(--ink2)}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.checklist input{margin-top:6px;accent-color:var(--accent)}
+
+@media (max-width:1000px){.shell.split{grid-template-columns:minmax(0,1fr)}.shell.split .viewer{position:fixed;inset:0;z-index:60;height:100vh}}
+@media (max-width:720px){
+  .topin,.wrap{padding-left:16px;padding-right:16px}
+  .toplinks .hide-sm{display:none}
+  .versus{grid-template-columns:1fr}
+  .tree,.movs{grid-template-columns:1fr 1fr}
+  .timeline{grid-template-columns:repeat(7,minmax(0,1fr))}
+  .sthead{grid-template-columns:1fr}.bignum{width:52px;height:52px;font-size:1.3rem}
+}
+@media print{header.top,.viewer,.tabs,.foot,.map{display:none}}
+</style>
+<link rel="stylesheet" href="assets/ruta-design.css">
+<link rel="stylesheet" href="assets/ruta-extra.css">
+</head>
+<body>
+<div class="shell" id="shell">
+<div class="main">
+  <header class="top"><div class="topin">
+    <div class="brand">ruta <span>/</span> ponencia</div>
+    <div class="toplinks">
+      <button class="chip" data-go="mapa">Mapa</button>
+      <button class="chip hide-sm" data-go="biblioteca">Bibliografía</button>
+      <button class="chip hide-sm" data-go="armar">Armar la ponencia</button>
+      <button class="chip" id="export">Descargar notas</button>
+      <button class="chip" id="theme" aria-label="Cambiar tema">◐</button>
+    </div>
+  </div></header>
+  <div class="wrap" id="app"></div>
+</div>
+<aside class="viewer" id="viewer">
+  <div class="vbar"><div class="vt" id="vtitle">PDF</div>
+    <a class="btn ghost" id="vopen" target="_blank" rel="noopener" title="Abrir en una pestaña">Abrir aparte</a>
+    <button class="btn" id="vclose" type="button">Cerrar</button></div>
+  <iframe id="vframe" title="Visor de PDF"></iframe>
+</aside>
+</div>
+
+<script>
+var M="../material/S05_2026-10-31_Lezama/", F="fuentes/", R="resumenes/";
+var PDF={
+  berg:{t:"Deleuze, El bergsonismo",s:"Cátedra 1987",f:"",off:function(p){return Math.floor(p/2)}},
+  prel:{t:"Lezama, «Preludio a las eras imaginarias»",s:"Confluencias 1988, pp. 370-385",f:"",off:function(p){return Math.max(1,Math.floor((p-370)/2)+1)}},
+  par:{t:"Lezama, Paradiso",s:"Texto íntegro con las notas de Eloísa Lezama",f:"",off:function(p){return p}},
+  myem:{t:"Bergson, Materia y memoria",s:"Traducción al español",f:"",off:function(p){return p}},
+  riemEN:{t:"Riemann 1854 (inglés, Clifford)",s:"EMIS · dominio público",f:"",off:function(p){return p+1}},
+  riemDE:{t:"Riemann 1854 (alemán)",s:"EMIS · dominio público",f:"",off:function(p){return p}},
+  widder:{t:"Widder 2019, «The Mathematics of Continuous Multiplicities»",s:"Deleuze and Guattari Studies 13:3, pp. 331-354",f:"",off:function(p){return p-331+2}},
+  calam:{t:"Calamari 2015, «Riemann-Weyl in Deleuze's Bergsonism»",s:"Deleuze Studies 9:1, pp. 59-87",f:"",off:function(p){return p-59+2}},
+  evol:{t:"Bergson, La evolución creadora",s:"Ed. Aguilar, trad. Míguez",f:"",off:function(p){return p}},
+  mona:{t:"Leibniz, Monadología y opúsculos",s:"Trad. Zozaya 1889 · dominio público",f:"",off:function(p){return p}},
+  pliegue:{t:"Deleuze, El pliegue",s:"Paidós",f:"",off:function(p){return Math.floor(p/2)}},
+  rowl:{t:"Rowlandson 2010, «La revolución como era imaginaria»",s:"Letral 4",f:"",off:function(p){return p}},
+  lupi:{t:"Lupi 2018, «Lezama: imagen y virtualidad»",s:"A Contracorriente 16:1",f:"",off:function(p){return p}},
+  quint:{t:"Quintero Gallego 2022, El Curso Délfico y las eras imaginarias",s:"TFM Complutense",f:"",off:function(p){return p}},
+  santaya:{t:"Santaya 2021, Geometría diferencial y teoría de las Ideas",s:"Universitas Philosophica 76",f:"",off:function(p){return p}},
+  paetsch:{t:"Paetsch 2018, «Illicit Continuities»",s:"Deleuze and Guattari Studies 12:3",f:"",off:function(p){return p}},
+  calam17:{t:"Calamari 2017, smooth and striated spaces",s:"Deleuze Studies 11:3",f:"",off:function(p){return p}},
+  pens:{t:"Bergson, La pensée et le mouvant (francés)",s:"1938 · contiene «Le possible et le réel»",f:"",off:function(p){return p}},
+  sources:{t:"Bergson, Les deux sources (francés)",s:"1932 · la fabulación y la emoción creadora",f:"",off:function(p){return p}},
+  essai:{t:"Bergson, Essai sur les données immédiates (francés)",s:"1889 · las dos multiplicidades",f:"",off:function(p){return p}}
+};
+function pdfBtn(k,p,label){return '<button class="look" data-pdf="'+k+'"'+(p?' data-p="'+p+'"':'')+'>↗ '+(label||("Ver "+(p?"p. "+p:"el texto")))+'</button>'}
+
+var ST=[
+{id:"capV",n:1,lvl:"ess",lvlt:"Esencial",short:"El capítulo V",t:"Deleuze, <em>El bergsonismo</em>, capítulo V",
+ meta:["pp. 95-120","26 páginas","4 horas"], pdf:["berg",95],
+ idea:"El impulso vital no es una fuerza misteriosa: es el nombre del movimiento por el que algo virtual se actualiza dividiéndose en líneas que no se parecen a él.",
+ guide:[
+  ["pp. 95-98","El problema de partida","Bergson parece contradecirse: unas veces todo son diferencias de naturaleza, otras todo son grados de un único tiempo. Deleuze lo resuelve con un cuarto momento del método: a partir de la unidad se vuelven a engendrar las diferencias. Ese cuarto momento es el impulso vital.",95],
+  ["pp. 98-100","La definición","«Una virtualidad que se está actualizando, una simplicidad que se está diferenciando, una totalidad que se está dividiendo». La vida procede por dicotomía: planta y animal; en el animal, instinto e inteligencia.",98],
+  ["pp. 101-103","Virtual contra posible","La idea más citada del capítulo. Busca las dos reglas de cada lado y la frase sobre lo posible como «doble estéril».",101],
+  ["pp. 104-107","Las líneas divergentes","La evolución no es una serie única sino una ramificación. Cada línea conserva el todo bajo un aspecto y la diferencia es creación, nunca negación.",104],
+  ["pp. 107-112","Finalidad sin fin","El ser vivo plantea y resuelve problemas. Hay direcciones, pero no fines dados: se crean junto con el acto que las recorre. Mira el esquema de la p. 108.",107],
+  ["pp. 112-119","El hombre y la emoción creadora","Solo en el hombre el impulso «pasa». Entre la inteligencia y la sociedad se inserta la emoción creadora. Lee con atención la nota 36 de la p. 118.",112],
+  ["pp. 119-120","El cierre del libro","Duración, Memoria e Impulso vital quedan definidos juntos en un solo párrafo.",119]],
+ concepts:[["Virtual","Lo que no es actual pero es real. Contiene todos sus grados a la vez, como una memoria."],["Actualización","El paso de lo virtual a lo actual. Procede por divergencia y crea algo que no se parece a su origen."],["Diferenciación","La división de un todo virtual en líneas divergentes. Es creación, no negación."],["Posible","Una imagen de lo real fabricada después y proyectada hacia atrás. Bergson la rechaza como falsa noción."],["Emoción creadora","Lo que se inserta entre la inteligencia y la sociedad, y abre la sociedad cerrada."],["Fabulación","El «instinto virtual» que fabrica dioses y ficciones para mantener la sociedad cerrada."]],
+ versus:{a:["Lo posible se realiza",["por semejanza: lo real se parece a lo posible","por limitación: unos posibles pasan, otros no","todo está dado de antemano"]],b:["Lo virtual se actualiza",["por divergencia: lo actual no se parece a lo virtual","por creación: las líneas se inventan al recorrerse","el Todo nunca está dado"]]},
+ quotes:[["lo posible no tiene realidad (aunque pueda tener una actualidad); inversamente, lo virtual no es actual, pero posee en cuanto tal una realidad","p. 101","berg",101,"La frase que define la distinción central del capítulo."],
+  ["la actualización ya no tiene como reglas la semejanza y la limitación, sino la diferencia o la divergencia y la creación","p. 102","berg",102,"Las reglas de cada lado, en una sola línea."],
+  ["Hay finalidad, porque la vida no opera sin direcciones; pero no hay \"fin\"","p. 112","berg",112,"La corrección del finalismo."],
+  ["la novela sería sobre todo fabulación, la música, por el contrario, emoción y creación","p. 118, nota 36","berg",118,"La única vez que el capítulo habla de literatura. Alguien la va a sacar en la sesión."]],
+ alert:"La nota 36 relega la novela a la fabulación. En una sesión sobre un novelista, piensa desde ya qué responderías.",
+ quiz:[["¿Qué es el «cuarto momento» del método?","El dualismo recobrado y engendrado a partir de lo virtual uno y simple. Deleuze llama impulso vital a ese movimiento (p. 98)."],
+  ["¿Cuáles son las reglas de lo posible y cuáles las de lo virtual?","Lo posible se realiza por semejanza y limitación. Lo virtual se actualiza por divergencia y creación (p. 102)."],
+  ["¿Por qué Bergson rechaza lo posible?","Porque es un doble de lo real proyectado hacia atrás cuando lo real ya surgió: supone que todo estaba dado (p. 103)."],
+  ["¿Qué se inserta entre la inteligencia y la sociedad?","La emoción creadora, que difiere en naturaleza del instinto y de la inteligencia, y abre la sociedad cerrada (pp. 116-118)."],
+  ["¿Qué dice la nota 36 sobre la novela?","Que sería sobre todo fabulación, mientras la música sería emoción y creación (p. 118)."]],
+ resumen:R+"01_Deleuze_Bergsonismo_capV.md", ph:"¿Qué te convence del capítulo? ¿Qué te parece débil? ¿Dónde entra la matemática?"},
+
+{id:"capII",n:2,lvl:"ess",lvlt:"Esencial",short:"Multiplicidades y Riemann",t:"Deleuze, <em>El bergsonismo</em>, capítulo II",
+ meta:["pp. 35-50","16 páginas","2 horas"], pdf:["berg",35],
+ idea:"Hay dos tipos de multiplicidad: la del espacio, que se divide sin cambiar, y la de la duración, que cambia de naturaleza cada vez que se divide. Deleuze dice que la distinción viene de Riemann.",
+ guide:[["p. 36","Las dos multiplicidades","La lista de rasgos de cada una: exterior y numérica frente a interna y cualitativa.",36],
+  ["pp. 37-38","Riemann","La única página del libro donde aparece Riemann. Fíjate en las palabras «nuestra hipótesis» y «quizá».",37],
+  ["p. 38","La fórmula clave","La duración «sólo se dejaba medir variando de principio métrico en cada estadio de la división». Es la frase más útil para tu enfoque.",38],
+  ["pp. 39-42","Dividirse cambiando de naturaleza","Lo subjetivo es lo que cambia de naturaleza al dividirse; lo objetivo, lo que no. La actualización se hace por diferenciación.",39]],
+ concepts:[["Multiplicidad discreta","Lleva su medida en sí: se cuenta. Es la del espacio y el número."],["Multiplicidad continua","Su medida viene de otra parte. Para Bergson es la de la duración."],["Diferencia de naturaleza","La que separa cosas que no son más o menos lo mismo, sino otra cosa."],["Diferencia de grado","La que separa cantidades de lo mismo."]],
+ versus:{a:["Multiplicidad del espacio",["exterior, numérica, discontinua","actual: todo está dado","se divide sin cambiar de naturaleza"]],b:["Multiplicidad de la duración",["interna, cualitativa, continua","virtual: se actualiza","cambia de naturaleza al dividirse"]]},
+ quotes:[["sólo se dejaba medir variando de principio métrico en cada estadio de la división","p. 38","berg",38,"La fórmula que conecta a Bergson con la geometría."],
+  ["la actualización se lleva a cabo por diferenciación, por líneas divergentes, y crea por su propio movimiento otras tantas diferencias de naturaleza","p. 41","berg",41,"El puente directo con el capítulo V."]],
+ alert:"Para Riemann el espacio es el ejemplo de lo continuo, y lo continuo se divide sin cambiar de tipo. Bergson usa «continuo» casi al revés. Hay que decirlo como transformación, no como herencia.",
+ quiz:[["¿Qué atribuye Deleuze a Riemann?","Pensar las cosas como multiplicidades según sus dimensiones; distinguir las discretas, que llevan su medida, de las continuas, cuya medida viene de otra cosa (p. 37)."],
+  ["¿Cómo presenta Deleuze la relación entre Bergson y Riemann?","Como «nuestra hipótesis», con un «quizá». No hay texto de Bergson que nombre a Riemann (p. 38)."],
+  ["¿Por qué se invierte el sentido de «continuo»?","Porque en Riemann lo continuo se mide y se divide sin cambiar de tipo, que es lo que Bergson atribuye a la multiplicidad numérica."]],
+ resumen:R+"02_Deleuze_Bergsonismo_capI-II_multiplicidades.md", ph:"¿Qué sabes tú de Riemann que Deleuze no dice?"},
+
+{id:"preludio",n:3,lvl:"ess",lvlt:"Esencial · obligatoria",short:"Preludio a las eras imaginarias",t:"Lezama, «Preludio a las eras imaginarias»",
+ meta:["pp. 370-385","16 páginas densas","3 horas"], pdf:["prel",370],
+ idea:"Cuando la causalidad y lo incondicionado se encuentran nace la poesía. El poeta es un «ser causal para la resurrección» que hace creadora la extensión.",
+ guide:[["p. 370","La apertura","«Con ojos irritados se contemplan la causalidad y lo incondicionado», como dos ejércitos. Siguen cuatro casos que la causalidad no explica: un escorpión tallado, la piel de onagro de Balzac, los amarillos de Van Gogh, una voz en un café.",370],
+  ["pp. 370-372","Bacon y Kant","El azar del experimento rompe la cadena de causas. Con Kant: «la misma serie de lo condicionado engendra lo incondicionado».",372],
+  ["pp. 373-377","Los griegos y la metamorfosis","La causalidad antigua, lo saturniano y lo abrahámico. Las dos huestes avanzan hacia un castillo.",374],
+  ["pp. 377-379","El encuentro","Nace «un monstruocillo, la poesía». El poema es su signo y su testimonio. Aquí están el fuego que se transmite y el triple verbo de Pitágoras.",378],
+  ["pp. 382-384","Los tres conceptos","La vivencia oblicua, el súbito y el potens. Juntos «hacen la extensión creadora».",382],
+  ["p. 385","El cierre","El poeta es «el ser causal para la resurrección». El poema actúa «sobre el continuo de las eras imaginarias».",384]],
+ concepts:[["Lo incondicionado","Lo que escapa a la cadena de causas, pero nace de ella: la serie de lo condicionado lo engendra."],["Vivencia oblicua","La experiencia que se apodera de lo que hay entre dos causas. Ejemplo: dos pagodas chinas levantadas contra los maleficios de otra ciudad, tomado de Frazer."],["Súbito","El instante de luz en que todas las causas quedan al descubierto."],["Potens","La posibilidad infinita. Nace de la vivencia oblicua y el súbito."],["Eras imaginarias","Épocas en que la imagen se impone como historia. En el ensayo solo se nombra una: la asiria."],["Extensión creadora","Lo que hacen juntos la vivencia oblicua y el súbito. Lezama piensa en extensión, no en duración."]],
+ quotes:[["la causalidad y lo incondicionado al encontrarse han formado un monstruocillo, la poesía","p. 378","prel",378,"La definición de la poesía en el ensayo."],
+  ["Ese recobrar del acto sobre el germen engendra un ser causal, nutrido con los inmensos recursos de la vivencia oblicua y un súbito, que hacen la extensión creadora","pp. 383-384","prel",383,"Donde aparecen juntos los conceptos clave."],
+  ["hay también una red de coordenadas en la poesía que llevan al hombre a la visión de la gloria, a la resurrección","p. 379","prel",379,"Lezama habla de coordenadas: útil para tu enfoque matemático."]],
+ alert:"Lezama piensa en extensión, no en duración: «extensión creadora», el árbol «surgido de las contracciones de lo extenso». Bergson oponía la duración al espacio. Ese contraste puede ser tu puente con Riemann.",
+ quiz:[["¿Qué dos fuerzas se enfrentan desde la primera línea?","La causalidad y lo incondicionado (p. 370)."],["¿Qué nace de su encuentro?","La poesía, un «monstruocillo»; el poema es su signo y su testimonio (pp. 378-379)."],["¿Con qué ejemplo ilustra la vivencia oblicua?","Las dos pagodas de Tsien Chen Fu contra los maleficios de Yung Chun, tomado de Frazer (p. 383)."],["¿Cómo define al poeta al final?","Como «el ser causal para la resurrección» (p. 385)."]],
+ resumen:R+"09_Preludio_eras_imaginarias_texto.md", ph:"¿Qué del Preludio podría dialogar con la diferenciación del cap. V? ¿Qué no encaja?"},
+
+{id:"paradiso",n:4,lvl:"ess",lvlt:"Esencial",short:"Paradiso",t:"Lezama, <em>Paradiso</em> (1966)",
+ meta:["Leer completos los caps. XII-XIV","pp. 337-418","3 horas + este resumen"], pdf:["par",337],
+ idea:"Una novela de formación que no narra la formación: remonta dos familias, se vuelve diálogo entre amigos y termina cuando el aprendizaje empieza, con «podemos empezar».",
+ paradiso:true,
+ quiz:[["¿En qué cuatro movimientos se divide la novela?","La casa y las dos familias (I-VII); la formación con Fronesis y Foción (VIII-XI); el interludio de los cuatro relatos (XII); Oppiano Licario (XIII-XIV)."],
+  ["¿Dónde aparece Licario antes de tener nombre?","En un bar, en el cap. V. En el VI acompaña la muerte del Coronel; reaparece en el ómnibus (XIII) y muere en el XIV."],
+  ["¿Qué es la «silogística poética» de Licario?","Un método que parte de dos términos dados y llega por analogía a un «tercer punto desconocido» (p. 390)."],
+  ["¿Cómo termina la novela?","El tintineo de un vaso devuelve la voz de Licario: «ritmo hesicástico, podemos empezar» (p. 418)."],
+  ["¿Qué tensión hay con la diferenciación bergsoniana?","En Bergson las líneas divergen sin volver; en Paradiso vuelven y se cierran en círculos."]],
+ resumen:R+"05_Lezama_imagen_y_diferenciacion.md", ph:"Escenas de Paradiso que podrías usar en la ponencia, con su página."},
+
+{id:"materia",n:5,lvl:"obl",lvlt:"Obligatoria de la sesión",short:"Materia y memoria",t:"Bergson, <em>Materia y memoria</em>, capítulo 1",
+ meta:["pp. 4-28 del PDF","2 horas"], pdf:["myem",4],
+ idea:"El cuerpo es un centro de acción: percibir es seleccionar, entre todas las imágenes del mundo, las que interesan a lo que el cuerpo puede hacer.",
+ guide:[["Comienzo","El mundo como imágenes","Bergson parte de «imágenes» que no son ni cosas ni representaciones.",4],["Desarrollo","El cuerpo, centro de acción","Percibir no es conocer: es elegir lo que interesa a la acción posible.",10],["Final","Percepción pura y memoria","La percepción pura sería una parte de la materia; la memoria es lo que se le añade, tema del resto del libro.",22]],
+ concepts:[["Imagen","Ni cosa ni representación: el modo en que existe el mundo para Bergson."],["Centro de acción","El cuerpo, que selecciona las imágenes según lo que puede hacer."]],
+ quotes:[],
+ alert:"De este capítulo no hay todavía un resumen verificado. La orientación es general y no cita el texto: antes de citar, léelo en el PDF.",
+ quiz:[["¿Qué papel tiene el cuerpo?","Es un centro de acción: la percepción selecciona según la acción posible."],["¿Por qué sirve en esta sesión?","Porque trata la imagen, y la sesión se titula «La imagen cognoscente»."]],
+ resumen:null, ph:"Lo que te llame la atención sobre la imagen."},
+
+{id:"riemann",n:6,lvl:"rec",lvlt:"Recomendada",short:"Riemann, 1854",t:"Riemann, «Sobre las hipótesis en que se funda la geometría»",
+ meta:["15 páginas","Parte I y sección III.3","1,5 horas"], pdf:["riemEN",1],
+ idea:"Un continuo no lleva su medida dentro: la medida es una hipótesis que viene de fuera, y lo que vale para lo grande no decide lo que vale para lo infinitamente pequeño.",
+ guide:[["I, p. 2","Qué es una multiplicidad","Continua si hay un camino continuo entre sus determinaciones, discreta si no. Lo discreto se cuenta; lo continuo se mide. Los ejemplos: los lugares y los colores.",2],
+  ["II, pp. 4-9","La métrica como hipótesis","El elemento de línea es una forma cuadrática cuyos coeficientes varían de punto a punto. La curvatura se mide desde dentro.",5],
+  ["III.3, p. 11","La última página","La medida de lo continuo «debe venir de fuera». Es el pasaje que conecta con la fórmula de Deleuze en la p. 38.",11]],
+ concepts:[["Mannigfaltigkeit","Multiplicidad o variedad: el conjunto de los modos de determinación de un concepto."],["Métrica","La forma de medir longitudes. No está en el concepto del continuo; se añade."],["Curvatura","Lo que el espacio es desde dentro, sin salir de él."]],
+ quotes:[["en una multiplicidad discreta el fundamento de sus relaciones métricas está dado en la noción de ella, mientras que en una multiplicidad continua este fundamento debe venir de fuera","p. 11, traducción propia desde Clifford","riemEN",11,"La frase que Deleuze resume en la p. 37."]],
+ alert:null,
+ quiz:[["¿Qué distingue lo continuo de lo discreto?","Que haya o no un camino continuo entre las determinaciones. Lo discreto se cuenta; lo continuo se mide."],["¿De dónde viene la métrica de lo continuo?","«De fuera»: no está en su concepto (p. 11)."],["¿Qué dice sobre lo infinitamente pequeño?","Que la métrica de lo grande no permite concluir la de lo pequeño (p. 11)."]],
+ resumen:R+"04_Riemann_Hipotesis_geometria.md", pdf2:["riemDE",1,"Ver en alemán"], ph:"Qué de Riemann quieres llevar y cómo lo explicarías a un público de filosofía y literatura."},
+
+{id:"critica",n:7,lvl:"rec",lvlt:"Recomendada",short:"Widder y Calamari",t:"La crítica sobre Riemann en Deleuze",
+ meta:["Widder pp. 337-344","Calamari pp. 61-75","2,5 horas"], pdf:["widder",337],
+ idea:"Lo que la crítica ya dijo: Widder leyó la fórmula de la p. 38 desde Riemann, y Calamari mostró que Deleuze tomó su Riemann de Weyl.",
+ guide:[["Widder, p. 341","El principio métrico","La duración «constituye un nuevo principio métrico inmanente con cada división».",341,"widder"],
+  ["Widder, p. 343","Más o menos, no cuánto","La cantidad virtual se compara como en Riemann cuando no hay medida fija.",343,"widder"],
+  ["Calamari, pp. 66-68","De Weyl, no de Riemann","El párrafo de Deleuze sobre Riemann está tomado «casi literalmente» de Weyl.",66,"calam"],
+  ["Calamari, pp. 74-75","La medida que depende del camino","En la geometría de Weyl de 1918 la longitud depende del camino y la unidad de medida cambia de punto a punto.",74,"calam"]],
+ concepts:[["Widder 2019","Ancla la fórmula de la p. 38 en la última página de Riemann. Hay que citarlo si usas esa lectura."],["Calamari 2015","Muestra que el Riemann de Deleuze viene de Weyl, y que la «concepción fibrada» de El pliegue viene de Châtelet."],["Weyl","Matemático cuya geometría de 1918 hace depender la medida del camino recorrido."]],
+ quotes:[],
+ alert:"Si tu ponencia usa la fórmula de la p. 38, cita a Widder: él ya la leyó desde Riemann.",
+ quiz:[["¿Qué hizo ya Widder con la fórmula de la p. 38?","La leyó desde la última página de Riemann: un nuevo principio métrico con cada división (p. 341)."],["¿De dónde sacó Deleuze su Riemann, según Calamari?","Del libro de Weyl, casi literalmente (pp. 66-68)."]],
+ resumen:R+"10_Riemann_en_Deleuze_Calamari_Santaya.md", pdf2:["calam",61,"Ver Calamari"], ph:"Qué quieres discutir con Widder o con Calamari."},
+
+{id:"opcional",n:8,lvl:"opt",lvlt:"Opcional",short:"Bergson, Leibniz, El pliegue",t:"Lecturas opcionales",
+ meta:["Solo si sobra tiempo"], pdf:["evol",96],
+ idea:"Las fuentes de las que Deleuze toma sus ideas: Bergson mismo y la línea leibniziana que te señaló el profesor.",
+ guide:[["Evolución creadora, pp. 96-114","La vida que estalla","La vida se divide como una granada que estalla; la tendencia avanza «en forma de surtidor».",96,"evol"],
+  ["Monadología, §§ 1-9, 56-69","La mónada","Sin ventanas, expresa el mundo desde su punto de vista. «La extensión es el orden de las coexistencias posibles».",9,"mona"],
+  ["El pliegue, cap. 5, pp. 81-100","Composibilidad","Leibniz reúne las series convergentes en un solo mundo; el Neobarroco deja que diverjan en el mismo mundo.",81,"pliegue"]],
+ concepts:[["Composible","Lo que puede coexistir en un mismo mundo. Leibniz excluye lo incomposible."],["Mónada","Unidad sin ventanas que expresa el universo entero desde un punto de vista."]],
+ quotes:[],
+ alert:"«Emoción creadora», «fabulación» y la crítica de lo posible no están en La evolución creadora: vienen de Las dos fuentes y de El pensamiento y lo moviente.",
+ quiz:[], resumen:R+"06_Leibniz_y_Deleuze_sobre_Leibniz.md", ph:"Notas de las lecturas opcionales."}
+];
+
+var P={
+movs:[["m1","I-VII","La casa y las dos familias"],["m2","VIII-XI","La formación"],["m3","XII","Interludio"],["m4","XIII-XIV","Oppiano Licario"]],
+caps:[
+["I","m1","La noche del asma","5-19","A medianoche, la criada Baldovina encuentra a Cemí, de cinco años, cubierto de ronchas y ahogándose de asma. Los criados le hacen un conjuro de cruces sobre el pecho. Los padres vuelven de la ópera y lo encuentran sano: «el muchacho estaba vivo por puro y sencillo milagro» (p. 11). Al día siguiente la casa despliega su ritmo: la abuela y sus dulces, el cocinero que alza el cuchillo y es despedido.","El capítulo fija los motivos del libro: el aliento, la comida como rito, el conjuro mezclado con lo doméstico, y una sombra sobre el padre."],
+["II","m1","El caserío y los viajes del Coronel","20-35","Cemí, de diez años, y una galería de vecinos: un bombero ciego, un caricaturista, un flautista, una solterona. Los viajes del Coronel a Kingston y a México: el espejo que no retiene la imagen, las máscaras de Taxco.","«El placer, que es para mí un momento en la claridad, presupone el diálogo» (p. 33)."],
+["III","m1","Jacksonville","36-57","Retroceso a 1894: los Olaya emigrados en Jacksonville. Una niña dice «Mama, a scene in Pompei» (p. 37) y la frase queda como conjuro familiar. Andresito, el hijo violinista, toca a Bach, sube a un elevador mal clavado y muere (p. 54). Muere la abuela Cambita con un anillo que su mano ya no suelta.","Las frases de la familia funcionan como conjuros que se repiten de generación en generación."],
+["IV","m1","La niñez del Coronel","58-79","La Habana, 1902. El futuro Coronel, José Eugenio, huérfano de doce años, vive con sus hermanas y su abuela. La historia del abuelo vasco que se dejó morir por orgullo: «Dios no me debía haber hecho esto, ha sido injusticia de Dios» (p. 62).","Desde las persianas, José Eugenio ve por primera vez a los Olaya recién llegados: las dos familias empiezan a cruzarse."],
+["V","m1","Alberto Olaya y el cruce de las familias","80-101","Alberto, castigado en el colegio, se fuga y pasa una noche errante. En un bar, un adolescente le descifra una inscripción latina: es, sin nombre todavía, Oppiano Licario. José Eugenio ve a Rialta por primera vez en un baile.","Don Andrés Olaya lo invita a casa: «Matemática, música y chocolate, excelentes divinidades para su edad» (p. 100)."],
+["VI","m1","Boda, asma y muerte del Coronel","102-142","José Eugenio se casa con Rialta. El Coronel enseña a nadar a su hijo, que casi se ahoga; el remedio del asma es una bañadera con hielo: «La escena tenía algo de los antiguos sacrificios» (p. 119). En Pensacola llega la influenza: «Fue la última vez que vieron el rostro de su padre» (p. 136).","En el hospital, el Coronel conoce a Oppiano Licario y muere a los treinta y tres años en su compañía."],
+["VII","m1","La casa de Prado y la muerte de Alberto","143-179","Rialta juega a los yaquis con sus hijos y los cuatro ven formarse en las losas el rostro del Coronel muerto. El tío Demetrio lee la carta burlesca de Alberto sobre los peces. La gran cena de la abuela Augusta: «una reunión de alegría familiar no estaría resuelta si la muerte no comenzase a querer abrir las ventanas» (p. 166).","De madrugada, el auto de Alberto choca con un tren. La imagen del padre en las losas es una de las escenas clave para pensar la imagen."],
+["VIII","m2","El colegio, Santa Clara, Fronesis","180-201","La iniciación sexual en el colegio. Cemí viaja con su abuela enferma a Santa Clara: «la muerte que la trabajaba ya por dentro era aún más majestuosa que su innata majestuosidad» (p. 193).","Allí conoce a Ricardo Fronesis: «Sintió el nacimiento de la amistad» (p. 197)."],
+["IX","m2","La Universidad y el diálogo sobre la sexualidad","202-246","Tiroteo estudiantil; Fronesis le presenta a Eugenio Foción. Rialta le da su mandato: «No rehúses el peligro, pero intenta siempre lo más difícil» (p. 209). Largo diálogo de los tres amigos sobre la sexualidad. Fronesis dice saber, «como monsieur La Palisse», que hay élan vital (p. 232): la única vez que la novela nombra el impulso vital.","Cemí trae a san Agustín y a «los biólogos», a quienes «les ha seducido que dentro de la misma especie perfeccionada surja otra nueva especie» (p. 240)."],
+["X","m2","Lucía, el pelirrojo, el fibroma","247-294","Los tres amigos, «la tríada pitagórica» (p. 251). Las escenas de Fronesis con Lucía y de Foción con un pelirrojo que quiere matarse. Fronesis cuenta la historia de Foción y de su padre, un médico enloquecido.","Rialta se opera; Santurce muestra a Cemí el fibroma extirpado: «Sólo las madres saben mirar» (pp. 293-294)."],
+["XI","m2","El poema, Nueva York, el álamo","295-336","Fronesis entrega a Cemí el poema «Retrato de José Cemí»: «lo invisible ocupaba el primer plano en lo visible» (p. 297). Foción vuelve de Nueva York: «Fronesis y yo estamos en la misma cuerda floja pascaliana» (p. 314). Muere doña Augusta.","Foción gira sin cesar alrededor de un álamo que es Fronesis; un rayo destruye el álamo y lo libera de «la adoración de su eternidad circular» (p. 336)."],
+["XII","m3","Cuatro relatos trenzados","337-365","La novela abandona a Cemí y alterna cuatro historias: un capitán romano que vence a magos; un niño que rompe una jarra que reaparece intacta; un desvelado que recorre tres noches habaneras; un crítico adormecido hasta los 114 años en una urna de vacío: «El tiempo destruido sólo mostraba el sueño y la locura» (p. 355).","El desvelado da vueltas en una procesión «enroscada tres veces en torno al parque» que «liberaba la extensión» y acaba en «lo que los matemáticos llaman reducción de factores comunes» (p. 361). Léelo completo."],
+["XIII","m4","El ómnibus y Espada 615","366-381","Un ómnibus recoge uno a uno a los protagonistas de cinco episodios. Un anticuario lee en el pulso de Cemí sus iniciales: «La vida es una red de situaciones indeterminadas, cada coincidencia es algo que quiere hablar a nuestro lado» (p. 377). Cemí devuelve una bolsa de monedas robada.","Una tarjeta de Licario: «Conocí a su tío Alberto, vi morir a su padre», y todo fue «un gesto que cierra un círculo» (p. 380). Licario lo recibe: «Entonces, podemos ya empezar» (p. 381). Léelo completo."],
+["XIV","m4","Oppiano Licario","382-418","Licario expone su «silogística poética»: dos términos dados y un «tercer punto desconocido» al que se llega por analogía (p. 390); ahí aparece «el misterioso laberinto de la imagen cognocente» (p. 391), casi el rótulo de la sesión. Su nombre: Licario, «el Ícaro» (p. 394). Licario muere delirando con la caída de Ícaro.","En el velorio, Ynaca le entrega el último poema: «Vi morir a tu padre; ahora, Cemí, tropieza» (p. 417). En una cafetería, un tintineo le devuelve la voz de Licario: «ritmo hesicástico, podemos empezar» (p. 418). Léelo completo."]
+],
+people:[["José Cemí","Protagonista","Asmático, de cinco años al comienzo, universitario desde el cap. IX. «Desde la muerte de su padre, Cemí asociaba toda separación a la idea de la muerte» (p. 193)."],
+ ["El Coronel","Padre","José Eugenio Cemí, militar e ingeniero. Muere a los treinta y tres años en Pensacola, acompañado por Licario (VI)."],
+ ["Rialta","Madre","De los Olaya. «No rehúses el peligro, pero intenta siempre lo más difícil» (p. 209)."],
+ ["Doña Augusta","Abuela","Preside la mesa familiar. Muere en el cap. XI."],
+ ["Alberto Olaya","Tío","El rebelde, autor de la carta de los peces. Muere en un choque con un tren (VII)."],
+ ["Ricardo Fronesis","Amigo","Desde el cap. VIII. Escribe el poema «Retrato de José Cemí»."],
+ ["Eugenio Foción","Amigo","Mayor que ellos. Termina girando alrededor de un álamo en un psiquiátrico (XI)."],
+ ["Oppiano Licario","Maestro","Sin nombre en un bar (V), junto al Coronel moribundo (VI), en el ómnibus (XIII), muere en el XIV."],
+ ["Ynaca Eco Licario","Hermana de Licario","Entrega a Cemí el último poema (XIV)."]],
+threads:[["El asma y el aliento","«Cada sueño que no puede contar lo ahoga, ahí está ya el asma» (p. 118).",["I","VI","IX"]],
+ ["La muerte como herencia","Cada muerte queda ligada a una comida, una frase o un objeto: la familia se sostiene por lo que repite.",["III","IV","VI","VII","XI","XIV"]],
+ ["La mesa","La comida es la forma en que la casa piensa.",["I","VII","XIV"]],
+ ["La imagen y lo invisible","Se mira por persianas y rendijas. «Lo invisible ocupaba el primer plano en lo visible» (p. 297).",["IV","VII","XI","XIII"]],
+ ["El círculo","El álamo y la «eternidad circular», el ómnibus que «cierra un círculo», las vueltas al parque.",["X","XI","XII","XIII"]],
+ ["La tríada","El conjuro trinitario, «la tríada pitagórica» de los amigos, el tercer punto de Licario.",["I","X","XI","XIV"]]],
+pq:[["Yo, como monsieur La Palisse, sé que hay élan vital y voluntad de muerte","Fronesis, p. 232",232,"La única mención del impulso vital en la novela, dicha como una obviedad."],
+ ["lo invisible ocupaba el primer plano en lo visible","p. 297",297,"Sobre el poema de Fronesis. Útil para pensar lo virtual."],
+ ["Aquella procesión enroscada tres veces en torno al parque liberaba la extensión al vencer de toda diversidad. Iba convirtiendo el final de su paseo en lo que los matemáticos llaman reducción de factores comunes","p. 361",361,"La novela usa la matemática y la extensión, como el Preludio."],
+ ["La vida es una red de situaciones indeterminadas, cada coincidencia es algo que quiere hablar a nuestro lado","el anticuario, p. 377",377,"La causalidad que no es causalidad."],
+ ["se engendró la causal de las variaciones que terminan en el infierno de un ómnibus, con su gesto que cierra un círculo","Licario, p. 380",380,"Las líneas que vuelven."],
+ ["el misterioso laberinto de la imagen cognocente","p. 391",391,"Casi literalmente el rótulo de la sesión."],
+ ["ese sí mismo estaba formado por dos líneas que se interceptaban en un punto. Y ese punto era el encuentro entre su azar y su destino","Ynaca, p. 416",416,"Dos líneas que convergen."],
+ ["Era la misma voz, pero modulada en otro registro. Volvía a oír de nuevo: ritmo hesicástico, podemos empezar","última línea, p. 418",418,"El aprendizaje empieza donde la novela acaba."]]
+};
+var MOVC={m1:"accent2",m2:"teal2",m3:"gold2",m4:"violet2"};
+
+var KEY="ruta-ponencia-v3";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+var S=load(); S.done=S.done||{}; S.notes=S.notes||{}; S.armar=S.armar||{}; S.tab=S.tab||{}; S.chap=S.chap||"XII"; S.ptab=S.ptab||"vistazo"; S.check=S.check||{};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+var shell=document.getElementById("shell");
+function openPDF(k,p){
+  var d=PDF[k]; if(!d)return;
+  var url=d.f+(p?"#page="+d.off(p):"");
+  document.getElementById("vframe").src=url;
+  document.getElementById("vopen").href=url;
+  document.getElementById("vtitle").innerHTML=esc(d.t)+(p?' · p. '+p:'')+'<small>'+esc(d.s)+'</small>';
+  shell.classList.add("split");
+}
+document.getElementById("vclose").onclick=function(){shell.classList.remove("split");document.getElementById("vframe").src="about:blank"};
+
+var app=document.getElementById("app");
+function donecount(){return ST.filter(function(s){return S.done[s.id]}).length}
+function daysLeft(){return Math.ceil((new Date(2026,9,31,8)-new Date())/864e5)}
+function hoursLeft(){var h=0;ST.forEach(function(s){if(!S.done[s.id]){var m=s.meta.join(" ").match(/([\d,]+) horas?/);if(m)h+=parseFloat(m[1].replace(",","."))}});return h}
+
+function viewMapa(){
+  var pct=Math.round(donecount()/ST.length*100), d=daysLeft();
+  var h='<section class="hero"><div class="eyebrow">Seminario Fronteras entre filosofía y literatura · Prof. Adolfo Chaparro</div>';
+  h+='<h1>Ruta hacia la ponencia</h1>';
+  h+='<p class="lead">Deleuze, <em>El bergsonismo</em>, cap. V: «El impulso vital como movimiento de la diferenciación», en diálogo con Lezama Lima y con la multiplicidad de Riemann. Recorre las estaciones en orden: cada una te dice qué leer, te explica lo esencial, te deja comprobar lo que entendiste y guarda tus notas.</p>';
+  h+='<div class="stats"><div class="stat prog"><div class="ring" style="--p:'+pct+'"><i>'+pct+'%</i></div><div><b>'+donecount()+' de '+ST.length+'</b><span>estaciones completadas</span></div></div>';
+  h+='<div class="stat"><b>'+(d>0?d:0)+'</b><span>días para el sábado 31 de octubre</span></div>';
+  h+='<div class="stat"><b>'+String(hoursLeft()).replace(".",",")+' h</b><span>de lectura pendiente</span></div></div></section>';
+  h+='<section class="map"><h2>El mapa</h2><p class="hint">Haz clic en una estación. Las primeras cuatro son el corazón de la ponencia.</p><div class="line">';
+  ST.forEach(function(s){h+='<button class="node '+s.lvl+(S.done[s.id]?" done":"")+'" data-go="'+s.id+'"><span class="num">'+(S.done[s.id]?"✓":s.n)+'</span><span class="nt">'+s.short+'</span><span class="nm">'+s.lvlt+' · '+s.meta[s.meta.length-1]+'</span></button>'});
+  h+='<button class="node" data-go="armar"><span class="num">★</span><span class="nt">Armar la ponencia</span><span class="nm">Al final</span></button></div>';
+  h+='<div class="legend"><span><i style="background:var(--accent)"></i>Esencial</span><span><i style="background:var(--gold)"></i>Obligatoria de la sesión</span><span><i style="background:var(--teal)"></i>Recomendada</span><span><i style="background:var(--violet)"></i>Opcional</span></div></section>';
+  h+='<section class="card" style="margin-top:22px"><h3>Calendario sugerido</h3><div class="concepts">'+[["13-14 oct","El capítulo V"],["15 oct","Multiplicidades y Riemann"],["16-17 oct","El Preludio"],["18-20 oct","Paradiso"],["21 oct","Materia y memoria"],["22-23 oct","Riemann y la crítica"],["24 oct","Elegir el eje y el esquema"],["25-29 oct","Redactar y cotejar citas"],["30 oct","Revisión y lectura en voz alta"]].map(function(x){return '<div class="concept"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div></section>';
+  return h;
+}
+function tabsBar(id,tabs,cur){return '<div class="tabs" role="tablist">'+tabs.map(function(t){return '<button role="tab" data-tab="'+id+'|'+t[0]+'" aria-selected="'+(t[0]===cur)+'"><span class="ic">'+t[2]+'</span>'+t[1]+'</button>'}).join("")+'</div>'}
+function quotesHTML(qs){
+  return qs.map(function(q){return '<figure class="quote"><q>«'+esc(q[0])+'»</q>'+(q[4]?'<div class="why">'+esc(q[4])+'</div>':'')+'<figcaption class="qm"><span>'+esc(q[1])+'</span><button data-copy="«'+esc(q[0])+'» ('+esc(q[1])+')">Copiar</button>'+(q[2]?'<button data-pdf="'+q[2]+'" data-p="'+q[3]+'">Ver en el PDF</button>':'')+'</figcaption></figure>'}).join("");
+}
+function flashHTML(s){
+  if(!s.quiz||!s.quiz.length)return '<div class="card muted">Esta estación no tiene preguntas.</div>';
+  var known=S.check[s.id]||{}, n=Object.keys(known).filter(function(k){return known[k]}).length;
+  return '<p class="muted" style="margin:0 0 14px">Piensa la respuesta y luego toca la tarjeta para darla vuelta. Marca las que ya sabes.</p><div class="flash">'+
+   s.quiz.map(function(q,i){return '<div><button class="fc" data-fc><div class="in"><div class="face front"><span class="k">Pregunta '+(i+1)+'</span><p>'+esc(q[0])+'</p><span class="tap">Toca para ver la respuesta</span></div><div class="face back"><span class="k">Respuesta</span><p>'+esc(q[1])+'</p></div></div></button><label class="selfscore"><input type="checkbox" data-know="'+s.id+'|'+i+'"'+(known[i]?" checked":"")+'> Ya lo sé</label></div>'}).join("")+
+   '</div><p class="muted" style="margin-top:12px">Sabes '+n+' de '+s.quiz.length+'.</p>';
+}
+function notesHTML(s){return '<div class="card"><h3>Tus notas</h3><textarea data-note="'+s.id+'" placeholder="'+esc(s.ph)+'">'+esc(S.notes[s.id]||"")+'</textarea><div class="saved" id="sv-'+s.id+'"></div></div>'}
+
+function viewStation(s){
+  var tab=S.tab[s.id]||"entiende";
+  var h='<section class="station"><div class="sthead"><div class="bignum '+s.lvl+'">'+s.n+'</div><div><div class="eyebrow">Estación '+s.n+'</div><h2>'+s.t+'</h2><div class="badges"><span class="badge '+s.lvl+'">'+s.lvlt+'</span>'+s.meta.map(function(m){return '<span class="badge">'+m+'</span>'}).join("")+'</div></div></div>';
+  h+='<div class="idea"><span class="lab">Si te quedas con una sola idea</span><p>'+s.idea+'</p></div>';
+  h+='<div class="pdfrow"><button class="btn pri" data-pdf="'+s.pdf[0]+'" data-p="'+s.pdf[1]+'">Abrir el texto al lado</button>'+(s.pdf2?'<button class="btn" data-pdf="'+s.pdf2[0]+'" data-p="'+s.pdf2[1]+'">'+s.pdf2[2]+'</button>':'')+(s.resumen?'<a class="btn" href="'+s.resumen+'" target="_blank">Resumen completo</a>':'')+'</div>';
+  if(s.paradiso)return h+viewParadiso(s);
+  var tabs=[["entiende","Entiende","1"],["lee","Guía de lectura","2"],["citas","Citas","3"],["comprueba","Comprueba","4"],["notas","Tus notas","5"]];
+  h+=tabsBar(s.id,tabs,tab);
+  if(tab==="entiende"){
+    if(s.alert)h+='<div class="alert"><span class="ai">⚑</span><div>'+s.alert+'</div></div>';
+    if(s.versus)h+='<div class="versus"><div class="col a"><h4>'+s.versus.a[0]+'</h4><ul>'+s.versus.a[1].map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div><div class="vs">frente a</div><div class="col b"><h4>'+s.versus.b[0]+'</h4><ul>'+s.versus.b[1].map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div></div>';
+    h+='<div class="card"><h3>Conceptos que vas a encontrar</h3><div class="concepts">'+s.concepts.map(function(c){return '<div class="concept"><b>'+c[0]+'</b><span>'+c[1]+'</span></div>'}).join("")+'</div></div>';
+    h+='<div class="card"><h3>El recorrido en breve</h3><div class="prose">'+s.guide.map(function(g){return '<p><strong>'+g[1]+'.</strong> '+g[2]+'</p>'}).join("")+'</div></div>';
+  } else if(tab==="lee"){
+    h+='<div class="card"><h3>Lee con esta guía</h3><p class="muted" style="margin-top:0">Cada tramo dice qué buscar. El botón abre el PDF al lado, en la página.</p><ol class="guide">'+s.guide.map(function(g,i){return '<li><span class="gd">'+(i+1)+'</span><div class="gp">'+g[0]+'</div><div class="gh">'+g[1]+'</div><p class="gx">'+g[2]+'</p>'+pdfBtn(g[4]||s.pdf[0],g[3])+'</li>'}).join("")+'</ol></div>';
+  } else if(tab==="citas"){
+    h+=s.quotes.length?quotesHTML(s.quotes):'<div class="card muted">Para esta estación no hay citas seleccionadas. Antes de citar, lee en el PDF.</div>';
+  } else if(tab==="comprueba"){ h+=flashHTML(s); }
+  else if(tab==="notas"){ h+=notesHTML(s); }
+  return h+footHTML(s);
+}
+function footHTML(s){
+  var i=ST.indexOf(s), prev=i>0?ST[i-1]:null, next=i<ST.length-1?ST[i+1]:null;
+  return '<div class="foot"><label class="donebox"><input type="checkbox" data-done="'+s.id+'"'+(S.done[s.id]?" checked":"")+'> Estación completada</label><div class="pdfrow">'+(prev?'<button class="btn" data-go="'+prev.id+'">← '+prev.short+'</button>':'<button class="btn" data-go="mapa">← Mapa</button>')+(next?'<button class="btn pri" data-go="'+next.id+'">'+next.short+' →</button>':'<button class="btn pri" data-go="armar">Armar la ponencia →</button>')+'</div></div></section>';
+}
+function viewParadiso(s){
+  var t=S.ptab;
+  var tabs=[["vistazo","La novela","1"],["familia","Familia y personajes","2"],["caps","Capítulo a capítulo","3"],["hilos","Hilos","4"],["ponencia","Para tu ponencia","5"],["comprueba","Comprueba","6"],["notas","Tus notas","7"]];
+  var h=tabsBar("paradiso",tabs,t);
+  if(t==="vistazo"){
+    h+='<div class="card"><div class="prose"><p><em>Paradiso</em> cuenta la formación de José Cemí, un niño asmático de una familia habanera, desde una crisis de asma a los cinco años hasta el velorio de Oppiano Licario, el maestro que lo espera al final.</p><p>No avanza como una biografía. En la primera mitad Cemí casi no actúa: la novela remonta las dos familias que confluyen en él, los Cemí y los Olaya, con sus muertes, sus comidas y sus frases que se repiten como conjuros. En la segunda, Cemí entra en la Universidad y la novela se vuelve conversación con sus amigos Fronesis y Foción. El capítulo XII suspende la trama con cuatro relatos ajenos. Los dos últimos reúnen todo en Licario, cuya muerte abre, en la última línea, el aprendizaje que la novela no cuenta.</p></div></div>';
+    h+='<div class="card"><h3>Los cuatro movimientos</h3><div class="movs">'+P.movs.map(function(m){return '<div style="background:var(--'+MOVC[m[0]]+')"><b>'+m[2]+'</b>Capítulos '+m[1]+'</div>'}).join("")+'</div><p class="muted" style="margin:0">Lee completos los capítulos XII, XIII y XIV (pp. 337-418). El resumen orienta la lectura: coteja completos los capítulos y escenas que sostengan tu argumento.</p></div>';
+    h+='<div class="card"><h3>La edición</h3><p style="margin:0">La Habana, Ediciones Unión, 1966. La edición de referencia recoge el texto definitivo con las notas de Eloísa Lezama Lima: la novela ocupa las pp. 5-418 y las notas las pp. 420-1058. Todas las páginas que se citan aquí son del PDF.</p></div>';
+  } else if(t==="familia"){
+    h+='<div class="tree"><div class="fam c"><h4>Los Cemí</h4><div class="gen"><span class="p">El vasco José María Cemí</span><span class="p">Eloísa</span><span class="arrow">↓</span><span class="p k">José Eugenio, el Coronel</span><span class="p">sus hermanas</span></div><p class="muted" style="font-size:.9rem;margin:8px 0 0">El vasco se dejó morir por orgullo (IV). El Coronel muere a los 33 años (VI).</p></div>';
+    h+='<div class="fam o"><h4>Los Olaya</h4><div class="gen"><span class="p">Don Andrés Olaya</span><span class="p">Doña Augusta</span><span class="arrow">↓</span><span class="p k">Rialta</span><span class="p">Alberto</span><span class="p">Andresito</span><span class="p">Carmen</span></div><p class="muted" style="font-size:.9rem;margin:8px 0 0">Andresito muere en Jacksonville (III); Alberto en un choque con un tren (VII); Augusta en el XI.</p></div></div>';
+    h+='<div class="union"><span class="muted" style="font:400 .74rem var(--mono)">EL CORONEL + RIALTA</span><br><b>Violante · José Cemí · Eloísa</b><br><span class="muted" style="font-size:.9rem">Fuera de la familia, Oppiano Licario une a los dos lados: conoció a Alberto y vio morir al Coronel.</span></div>';
+    h+='<div class="people">'+P.people.map(function(p){return '<div class="person"><em>'+p[1]+'</em><b>'+p[0]+'</b><p>'+p[2]+'</p></div>'}).join("")+'</div>';
+  } else if(t==="caps"){
+    var idx=P.caps.findIndex(function(c){return c[0]===S.chap}); if(idx<0)idx=11; var c=P.caps[idx];
+    h+='<p class="muted" style="margin:0 0 8px">Elige un capítulo. Los marcados con ● son los que debes leer completos.</p><div class="timeline">'+P.caps.map(function(x){return '<button class="tl '+x[1]+(x[0]===c[0]?" on":"")+(["XII","XIII","XIV"].indexOf(x[0])>=0?" must":"")+'" data-chap="'+x[0]+'">'+x[0]+'</button>'}).join("")+'</div>';
+    h+='<div class="movs">'+P.movs.map(function(m){return '<div style="background:var(--'+MOVC[m[0]]+')"><b>'+m[2]+'</b>'+m[1]+'</div>'}).join("")+'</div>';
+    h+='<article class="chapcard"><div class="ch"><span class="roman">'+c[0]+'</span><h4>'+c[2]+'</h4><span class="pp">pp. '+c[3]+'</span></div><div class="prose" style="margin-top:12px"><p>'+c[4]+'</p><p><strong>Para retener.</strong> '+c[5]+'</p></div><div class="pdfrow">'+pdfBtn("par",parseInt(c[3]),"Leer el capítulo en el PDF")+'</div>';
+    h+='<div class="chapnav">'+(idx>0?'<button class="btn" data-chap="'+P.caps[idx-1][0]+'">← Cap. '+P.caps[idx-1][0]+'</button>':'<span></span>')+(idx<P.caps.length-1?'<button class="btn" data-chap="'+P.caps[idx+1][0]+'">Cap. '+P.caps[idx+1][0]+' →</button>':'')+'</div></article>';
+  } else if(t==="hilos"){
+    h+='<p class="muted" style="margin:0 0 12px">Seis motivos que vuelven a lo largo de la novela. Toca un capítulo para leer su resumen.</p><div class="threads">'+P.threads.map(function(x){return '<div class="thread"><b>'+x[0]+'</b><span>'+x[1]+'</span><div class="chs">'+x[2].map(function(r){return '<i role="button" tabindex="0" data-chapgo="'+r+'">'+r+'</i>'}).join("")+'</div></div>'}).join("")+'</div>';
+  } else if(t==="ponencia"){
+    h+='<div class="alert"><span class="ai">⚑</span><div>Casi todo lo conceptual lo dicen personajes que se contradicen. Cita siempre con el nombre de quien habla: no atribuyas a Lezama lo que dice Foción.</div></div>';
+    h+=quotesHTML(P.pq.map(function(q){return [q[0],q[1],"par",q[2],q[3]]}));
+    h+='<div class="card"><h3>Tres preguntas para pensar la novela con el cap. V</h3><div class="concepts"><div class="concept"><b>¿Convergencia o divergencia?</b><span>La diferenciación ontológica y el retorno narrativo operan en planos distintos. ¿Qué transforma cada regreso en Paradiso y hasta dónde permite compararlo con la creación?</span></div><div class="concept"><b>¿Imagen o posible?</b><span>La familia ve al Coronel muerto en las losas (VII). ¿Realización de un posible que se parece a lo que fue, o actualización de un virtual que no se le parece?</span></div><div class="concept"><b>¿Fabulación o emoción creadora?</b><span>Si la novela es fabulación, como dice la nota 36, ¿qué hace Paradiso, que termina abriendo un aprendizaje?</span></div></div></div>';
+  } else if(t==="comprueba"){ h+=flashHTML(s); }
+  else if(t==="notas"){ h+=notesHTML(s); }
+  return h+footHTML(s);
+}
+function viewBiblioteca(){
+  var groups=[["Textos de la ponencia",["berg","prel","par","myem"]],["Matemática y crítica",["riemEN","riemDE","widder","calam","calam17","paetsch","santaya"]],["Bergson y Leibniz",["evol","essai","sources","pens","mona","pliegue"]],["Sobre Lezama",["rowl","lupi","quint"]]];
+  var h='<section class="hero" style="padding-bottom:0"><div class="eyebrow">Biblioteca</div><h1 style="font-size:2.3rem">Los PDF de la ruta</h1><p class="lead">Ábrelos al lado de la página o en una pestaña aparte. Los resúmenes completos están en la carpeta <em>resumenes</em>.</p></section>';
+  groups.forEach(function(g){h+='<div class="libgroup">'+g[0]+'</div><div class="lib">'+g[1].map(function(k){var d=PDF[k];return '<div class="book"><b>'+esc(d.t)+'</b><span>'+esc(d.s)+'</span><div class="pdfrow"><button class="btn" data-pdf="'+k+'">Abrir al lado</button><a class="btn ghost" href="'+d.f+'" target="_blank">Pestaña aparte</a></div></div>'}).join("")+'</div>'});
+  return h;
+}
+function viewArmar(){
+  var A=S.armar;
+  var ejes=[["A","La medida del continuo","La fórmula de la p. 38 y la línea Riemann-Weyl. Lezama como pensador de la extensión creadora."],["B","De la composibilidad a la divergencia","Leibniz reúne las series en un mundo; Bergson y Deleuze las dejan divergir. Lezama y sus líneas que vuelven."],["C","La novela entre fabulación y emoción","La nota 36 relega la novela. ¿Puede Paradiso ser emoción creadora?"],["D","Otro eje","Uno que salga de tus notas."]];
+  var h='<section class="hero" style="padding-bottom:0"><div class="eyebrow">Al final del recorrido</div><h1 style="font-size:2.4rem">Armar la ponencia</h1><p class="lead">Elige un eje, escribe la pregunta y la tesis, y llena el esquema con lo que anotaste. Al terminar, «Descargar notas» te baja todo como archivo para redactar.</p></section>';
+  h+='<div class="card" style="margin-top:22px"><h3>1. Elige el eje</h3><div class="choices">'+ejes.map(function(e){return '<label class="choice'+(A.eje===e[0]?" on":"")+'"><input type="radio" name="eje" value="'+e[0]+'"'+(A.eje===e[0]?" checked":"")+'><b>'+e[0]+'. '+e[1]+'</b><span>'+e[2]+'</span></label>'}).join("")+'</div></div>';
+  function ta(k,lab,ph){return '<div class="card"><h3>'+lab+'</h3><textarea data-armar="'+k+'" placeholder="'+esc(ph)+'">'+esc(A[k]||"")+'</textarea></div>'}
+  h+=ta("pregunta","2. La pregunta de la ponencia","¿Qué problema de la frontera filosofía/literatura abre el cap. V cuando se lee junto a Lezama?");
+  h+=ta("tesis","3. La tesis en una o dos frases","Lo que vas a sostener.");
+  h+='<div class="libgroup">4. El esquema</div>';
+  [["s1","Introducción","El acuerdo con el profesor, la pregunta y la tesis."],["s2","El capítulo V","Impulso vital, virtual y posible, líneas divergentes."],["s3","El problema matemático","La multiplicidad, Riemann, la fórmula de la p. 38."],["s4","Lezama","El Preludio y Paradiso."],["s5","Conclusión","Lo que la lectura conjunta permite pensar."]].forEach(function(x,i){h+='<div class="card"><h3>4.'+(i+1)+' '+x[1]+'</h3><textarea data-armar="'+x[0]+'" placeholder="'+esc(x[2])+'">'+esc(A[x[0]]||"")+'</textarea></div>'});
+  h+=ta("preguntas","5. Preguntas para la sesión","Dos o tres preguntas de frontera, no de comprensión.")+ta("citas","6. Citas que vas a usar","Cita, autor, página.");
+  var cl=["Cada cita cotejada con la imagen del PDF","Widder y Calamari citados si usas la fórmula de la p. 38","Lo que dicen los personajes de Paradiso, atribuido al personaje","La nota 36 respondida o al menos reconocida","Leída en voz alta y medida en tiempo"];
+  h+='<div class="card checklist"><h3>Antes de entregar</h3>'+cl.map(function(c,i){return '<label><input type="checkbox" data-cl="'+i+'"'+((A.cl||{})[i]?" checked":"")+'> '+c+'</label>'}).join("")+'</div>';
+  h+='<div class="pdfrow"><button class="btn pri" id="export2">Descargar todas mis notas</button><button class="btn" data-go="mapa">Volver al mapa</button></div>';
+  return h;
+}
+
+var view=(location.hash||"#mapa").slice(1);
+function render(){
+  var s=ST.find(function(x){return x.id===view});
+  app.innerHTML=s?viewStation(s):view==="biblioteca"?viewBiblioteca():view==="armar"?viewArmar():viewMapa();
+  document.querySelectorAll(".toplinks .chip[data-go]").forEach(function(c){c.classList.toggle("on",c.dataset.go===view)});
+  bind();
+}
+function go(v){view=v;if(location.hash.slice(1)!==v)history.pushState(null,"","#"+v);render();window.scrollTo({top:0,behavior:"smooth"})}
+window.addEventListener("popstate",function(){view=(location.hash||"#mapa").slice(1);render()});
+function bind(){
+  document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+  document.querySelectorAll("[data-pdf]").forEach(function(b){b.onclick=function(){openPDF(b.dataset.pdf,b.dataset.p?parseInt(b.dataset.p):0)}});
+  document.querySelectorAll("[data-tab]").forEach(function(b){b.onclick=function(){var x=b.dataset.tab.split("|");if(x[0]==="paradiso")S.ptab=x[1];else S.tab[x[0]]=x[1];save();render()}});
+  document.querySelectorAll("[data-copy]").forEach(function(b){b.onclick=function(){try{navigator.clipboard.writeText(b.dataset.copy).then(function(){b.textContent="Copiada";setTimeout(function(){b.textContent="Copiar"},1300)})}catch(e){}}});
+  document.querySelectorAll("[data-fc]").forEach(function(b){b.onclick=function(){b.classList.toggle("flip")}});
+  document.querySelectorAll("[data-know]").forEach(function(c){c.onchange=function(){var x=c.dataset.know.split("|");S.check[x[0]]=S.check[x[0]]||{};S.check[x[0]][x[1]]=c.checked;save();render()}});
+  document.querySelectorAll("[data-note]").forEach(function(t){t.oninput=function(){S.notes[t.dataset.note]=t.value;save();var m=document.getElementById("sv-"+t.dataset.note);if(m){m.textContent="✓ Guardado";clearTimeout(t._t);t._t=setTimeout(function(){m.textContent=""},1400)}}});
+  document.querySelectorAll("[data-armar]").forEach(function(t){t.oninput=function(){S.armar[t.dataset.armar]=t.value;save()}});
+  document.querySelectorAll('input[name="eje"]').forEach(function(r){r.onchange=function(){S.armar.eje=r.value;save();render()}});
+  document.querySelectorAll("[data-cl]").forEach(function(c){c.onchange=function(){S.armar.cl=S.armar.cl||{};S.armar.cl[c.dataset.cl]=c.checked;save()}});
+  document.querySelectorAll("[data-done]").forEach(function(c){c.onchange=function(){S.done[c.dataset.done]=c.checked;save()}});
+  document.querySelectorAll("[data-chap]").forEach(function(b){b.onclick=function(){S.chap=b.dataset.chap;save();render()}});
+  document.querySelectorAll("[data-chapgo]").forEach(function(b){b.onclick=function(){S.chap=b.dataset.chapgo;S.ptab="caps";save();render()}});
+  var e2=document.getElementById("export2"); if(e2)e2.onclick=exportNotes;
+}
+function exportNotes(){
+  var out="# Notas para la ponencia\n\nExportado el "+new Date().toLocaleString("es-CO")+"\n\n";
+  ST.forEach(function(s){var t=S.notes[s.id];if(t&&t.trim())out+="## "+s.short+"\n\n"+t.trim()+"\n\n"});
+  var A=S.armar,lab={pregunta:"Pregunta",tesis:"Tesis",s1:"Introducción",s2:"El capítulo V",s3:"El problema matemático",s4:"Lezama",s5:"Conclusión",preguntas:"Preguntas para la sesión",citas:"Citas"},arm="";
+  if(A.eje)arm+="**Eje elegido:** "+A.eje+"\n\n";
+  Object.keys(lab).forEach(function(k){if(A[k]&&A[k].trim())arm+="### "+lab[k]+"\n\n"+A[k].trim()+"\n\n"});
+  if(arm)out+="## Armar la ponencia\n\n"+arm;
+  var b=new Blob([out],{type:"text/markdown;charset=utf-8"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(b);a.download="Notas_ponencia.md";document.body.appendChild(a);a.click();a.remove();
+}
+document.getElementById("export").onclick=exportNotes;
+(function(){var r=document.documentElement;try{var t=localStorage.getItem("ruta-tema");if(t)r.setAttribute("data-theme",t)}catch(e){}
+ document.getElementById("theme").onclick=function(){var c=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");var n=c==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("ruta-tema",n)}catch(e){}}})();
+document.addEventListener("keydown",function(e){if(e.key==="Escape")shell.classList.remove("split")});
+render();
+</script>
+<script src="assets/ruta-previews.js"></script>
+<script src="assets/ruta-ampliada.js"></script>
+<script src="assets/biblioteca-ampliada.js"></script>
+<script src="assets/ruta-design.js"></script>
+<script src="assets/ruta-atlas.js"></script>
+<!-- LOCAL_READER -->
+<script src="assets/edition.js"></script>
+</body>
+</html>
