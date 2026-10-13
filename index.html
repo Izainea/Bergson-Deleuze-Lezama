@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<!-- EDITION_MODE -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bergson · Deleuze · Lezama — Ruta de lecturas</title>
@@ -250,16 +251,11 @@ textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
   </div></header>
   <div class="wrap" id="app"></div>
 </div>
-<aside class="viewer" id="viewer">
-  <div class="vbar"><div class="vt" id="vtitle">PDF</div>
-    <a class="btn ghost" id="vopen" target="_blank" rel="noopener" title="Abrir en una pestaña">Abrir aparte</a>
-    <button class="btn" id="vclose" type="button">Cerrar</button></div>
-  <iframe id="vframe" title="Visor de PDF"></iframe>
-</aside>
+<!-- LOCAL_VIEWER -->
 </div>
 
 <script>
-var M="../material/S05_2026-10-31_Lezama/", F="fuentes/", R="resumenes/";
+var R="resumenes/";
 var PDF={
   berg:{t:"Deleuze, El bergsonismo",s:"Cátedra 1987",f:"",off:function(p){return Math.floor(p/2)}},
   prel:{t:"Lezama, «Preludio a las eras imaginarias»",s:"Confluencias 1988, pp. 370-385",f:"",off:function(p){return Math.max(1,Math.floor((p-370)/2)+1)}},
@@ -282,7 +278,7 @@ var PDF={
   sources:{t:"Bergson, Les deux sources (francés)",s:"1932 · la fabulación y la emoción creadora",f:"",off:function(p){return p}},
   essai:{t:"Bergson, Essai sur les données immédiates (francés)",s:"1889 · las dos multiplicidades",f:"",off:function(p){return p}}
 };
-function pdfBtn(k,p,label){return '<button class="look" data-pdf="'+k+'"'+(p?' data-p="'+p+'"':'')+'>↗ '+(label||("Ver "+(p?"p. "+p:"el texto")))+'</button>'}
+function pdfBtn(k,p,label){if(!window.RUTA_LOCAL)return '';return '<button class="look" data-pdf="'+k+'"'+(p?' data-p="'+p+'"':'')+'>↗ '+(label||("Ver "+(p?"p. "+p:"el texto")))+'</button>'}
 
 var ST=[
 {id:"capV",n:1,lvl:"ess",lvlt:"Esencial",short:"El capítulo V",t:"Deleuze, <em>El bergsonismo</em>, capítulo V",
@@ -453,15 +449,7 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 
 var shell=document.getElementById("shell");
-function openPDF(k,p){
-  var d=PDF[k]; if(!d)return;
-  var url=d.f+(p?"#page="+d.off(p):"");
-  document.getElementById("vframe").src=url;
-  document.getElementById("vopen").href=url;
-  document.getElementById("vtitle").innerHTML=esc(d.t)+(p?' · p. '+p:'')+'<small>'+esc(d.s)+'</small>';
-  shell.classList.add("split");
-}
-document.getElementById("vclose").onclick=function(){shell.classList.remove("split");document.getElementById("vframe").src="about:blank"};
+function openPDF() {}
 
 var app=document.getElementById("app");
 function donecount(){return ST.filter(function(s){return S.done[s.id]}).length}

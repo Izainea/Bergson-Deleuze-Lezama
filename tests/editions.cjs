@@ -13,6 +13,7 @@ const assert=require('node:assert/strict');
  await page.evaluate(()=>go('biblioteca'));
  assert.equal(await page.locator('.book').count(),35);
  assert.equal(await page.getByRole('button',{name:'Mis PDF',exact:true}).count(),0);
+ assert.equal(await page.locator('#viewer,iframe,[data-pdf],[data-vault],.reference-card,.book-cover,.edition-note').count(),0);
  assert.equal(await page.locator('a[href$=".pdf"]').count(),0);
  assert.equal(await page.locator('[data-pdf]:enabled').count(),0);
  await page.locator('#book-search').fill('Riemann');
@@ -22,6 +23,11 @@ const assert=require('node:assert/strict');
  await page.locator('#metric-a').fill('4');
  assert.equal(await page.locator('#metric-length').textContent(),'1,479');
  assert(!requests.some(u=>/__local__|\.bin|\.pdf|lector\.js|vault-crypto/.test(u)));
+ for (const id of await page.evaluate(()=>ST.map(s=>s.id).concat(['mapa','biblioteca','armar']))) {
+   await page.evaluate(id=>go(id),id);
+   assert.equal(await page.locator('#viewer,iframe,[data-pdf],[data-vault],.reference-card,.book-cover').count(),0,id);
+   assert(!/\bPDF\b/.test(await page.locator('body').innerText()),id);
+ }
  for(const path of ['/.git/config','/.local/paths.json','/assets/../../.local/paths.json','/tools/serve_local.py']) {
    const response=await page.request.get('http://127.0.0.1:8765'+path);
    assert.equal(response.status(),404,path);
