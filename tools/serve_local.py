@@ -12,7 +12,8 @@ LOCAL = ROOT / '.local'
 
 def local_html():
     source = (ROOT / 'index.html').read_text(encoding='utf-8')
-    return (source.replace('<!-- EDITION_MODE -->', '<script>window.RUTA_LOCAL=true;</script>')
+    return (source.replace('<html lang="es" data-edition="public">', '<html lang="es" data-edition="local">', 1)
+            .replace('<!-- EDITION_MODE -->', '<script>window.RUTA_LOCAL=true;</script>')
             .replace('<!-- LOCAL_VIEWER -->', (ROOT / 'config/viewer.local.html').read_text(encoding='utf-8'))
             .replace('<!-- LOCAL_READER -->', '<script type="module" src="assets/lector.js"></script>'))
 

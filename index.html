@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-edition="public">
 <head>
 <!-- EDITION_MODE -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bergson · Deleuze · Lezama — Ruta de lecturas</title>
 <style>
+html[data-edition="public"] .reference-card,
+html[data-edition="public"] .book-cover,
+html[data-edition="public"] [data-pdf],
+html[data-edition="public"] [data-vault],
+html[data-edition="public"] #viewer { display:none !important; }
 :root{
   --paper:#f5f6fb; --paper2:#eceef8; --card:#ffffff; --ink:#151a2d; --ink2:#454c66; --muted:#7a8099;
   --line:#dfe2ef; --accent:#4b3fd1; --accent2:#e9e7fd;
@@ -233,8 +238,8 @@ textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
 }
 @media print{header.top,.viewer,.tabs,.foot,.map{display:none}}
 </style>
-<link rel="stylesheet" href="assets/ruta-design.css">
-<link rel="stylesheet" href="assets/ruta-extra.css">
+<link rel="stylesheet" href="assets/ruta-design.css?v=9b16abc5cf16">
+<link rel="stylesheet" href="assets/ruta-extra.css?v=d6903d815f6d">
 </head>
 <body>
 <div class="shell" id="shell">
@@ -602,12 +607,12 @@ document.getElementById("export").onclick=exportNotes;
 document.addEventListener("keydown",function(e){if(e.key==="Escape")shell.classList.remove("split")});
 render();
 </script>
-<script src="assets/ruta-previews.js"></script>
-<script src="assets/ruta-ampliada.js"></script>
-<script src="assets/biblioteca-ampliada.js"></script>
-<script src="assets/ruta-design.js"></script>
-<script src="assets/ruta-atlas.js"></script>
+<script src="assets/ruta-previews.js?v=de2320437a68"></script>
+<script src="assets/ruta-ampliada.js?v=c3e90206121c"></script>
+<script src="assets/biblioteca-ampliada.js?v=9a2fdbd308d9"></script>
+<script src="assets/ruta-design.js?v=5152090dd892"></script>
+<script src="assets/ruta-atlas.js?v=6ac2d005ec8c"></script>
 <!-- LOCAL_READER -->
-<script src="assets/edition.js"></script>
+<script src="assets/edition.js?v=12e79f646508"></script>
 </body>
 </html>
