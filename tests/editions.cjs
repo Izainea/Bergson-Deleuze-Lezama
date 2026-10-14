@@ -28,6 +28,32 @@ const assert=require('node:assert/strict');
    assert.equal(await page.locator('#viewer,iframe,[data-pdf],[data-vault],.reference-card,.book-cover').count(),0,id);
    assert(!/\bPDF\b/.test(await page.locator('body').innerText()),id);
  }
+ // Deep reading is present in all stations and remains navigable on mobile.
+ const content=await page.evaluate(()=>Object.fromEntries(Object.entries(RUTA_ANALISIS).map(([id,a])=>[id,{sections:a.sections.length,words:a.sections.flatMap(s=>s.paragraphs).join(' ').split(/\s+/).length}])));
+ assert.equal(Object.keys(content).length,12);
+ for(const [id,stats] of Object.entries(content)) {
+   assert.equal(stats.sections,7,id);
+   assert(stats.words>=800,id+': insufficient developed content');
+   await page.evaluate(id=>{S.tab[id]='entiende';S.ptab='vistazo';go(id)},id);
+   assert.equal(await page.locator('.analysis-section').count(),7,id);
+   assert.equal(await page.locator('.analysis-source').count(),1,id);
+   const route=await page.evaluate(()=>location.hash);
+   await page.locator('.analysis-toc button').last().click();
+   assert.equal(await page.evaluate(()=>location.hash),route,'contents must not change route');
+   assert.equal(await page.evaluate(()=>document.activeElement.id),'analysis-'+id+'-6');
+   await page.setViewportSize({width:390,height:844});
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),id+': mobile overflow');
+   assert.equal(await page.locator('.reference-card,.book-cover,[data-pdf],[data-vault]').count(),0,id);
+   await page.setViewportSize({width:1280,height:900});
+ }
+ await page.evaluate(()=>{S.tab.capV='citas';go('capV')});
+ await page.locator('[data-return-analysis]').click();
+ assert.equal(await page.locator('.analysis-section').count(),7);
+ await page.setViewportSize({width:390,height:844});
+ await page.evaluate(()=>scrollTo(0,0));
+ await page.screenshot({path:'/tmp/ruta-analysis-mobile.png'});
+ await page.setViewportSize({width:1280,height:900});
+ await page.screenshot({path:'/tmp/ruta-analysis-desktop.png'});
  for(const path of ['/.git/config','/.local/paths.json','/assets/../../.local/paths.json','/tools/serve_local.py']) {
    const response=await page.request.get('http://127.0.0.1:8765'+path);
    assert.equal(response.status(),404,path);

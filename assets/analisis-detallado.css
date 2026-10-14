@@ -1,0 +1,15 @@
+.deep-analysis{margin:24px 0 42px;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.analysis-head{padding:30px 30px 24px;background:var(--accent2);border-bottom:1px solid var(--line)}
+.analysis-head h3{font-size:clamp(1.45rem,2.3vw,2rem);line-height:1.2;letter-spacing:-.02em;margin:12px 0 18px;max-width:34ch}
+.analysis-source{font-size:.83rem;line-height:1.65;color:var(--ink2);margin:0;overflow-wrap:anywhere}
+.analysis-source strong{color:var(--ink)}
+.analysis-toc{display:grid;gap:0;padding:18px 30px;border-bottom:1px solid var(--line)}
+.analysis-toc button{display:flex;align-items:baseline;gap:12px;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:11px 0;cursor:pointer;font-size:.94rem;line-height:1.4}
+.analysis-toc button:last-child{border-bottom:0}.analysis-toc button:hover{color:var(--accent)}
+.analysis-toc span,.analysis-section h4 span{font:500 .74rem var(--mono);color:var(--accent);flex-shrink:0}
+.analysis-section{padding:30px;max-width:80ch;margin:auto;border-bottom:1px solid var(--line)}
+.analysis-section:last-child{border-bottom:0}.analysis-section h4{display:flex;align-items:baseline;gap:12px;font-size:1.23rem;line-height:1.35;margin:0 0 20px;scroll-margin-top:160px}
+.analysis-section p{font-size:1.04rem;line-height:1.85;color:var(--ink2);margin:0 0 18px;overflow-wrap:break-word}.analysis-section p:last-child{margin-bottom:0}
+.analysis-recap{font-size:1.15rem;margin:36px 0 16px}.analysis-reference p{font-size:.93rem;color:var(--ink2)}
+@media(max-width:760px){.analysis-head,.analysis-section{padding:23px 20px}.analysis-toc{padding:14px 20px}.analysis-section p{font-size:1rem;line-height:1.8}.analysis-section h4{font-size:1.2rem;scroll-margin-top:180px}.deep-analysis{margin-top:18px}.analysis-head h3{font-size:1.55rem}}
+@media print{.analysis-toc{display:none}.deep-analysis{border:0;overflow:visible}.analysis-head{background:transparent}.analysis-section{padding:18px 0;max-width:none}.analysis-section h4{break-after:avoid}.analysis-section p{orphans:3;widows:3}}

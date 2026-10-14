@@ -240,6 +240,7 @@ textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
 </style>
 <link rel="stylesheet" href="assets/ruta-design.css?v=9b16abc5cf16">
 <link rel="stylesheet" href="assets/ruta-extra.css?v=d6903d815f6d">
+<link rel="stylesheet" href="assets/analisis-detallado.css?v=9c1ec08e2a7f">
 </head>
 <body>
 <div class="shell" id="shell">
@@ -492,12 +493,14 @@ function notesHTML(s){return '<div class="card"><h3>Tus notas</h3><textarea data
 function viewStation(s){
   var tab=S.tab[s.id]||"entiende";
   var h='<section class="station"><div class="sthead"><div class="bignum '+s.lvl+'">'+s.n+'</div><div><div class="eyebrow">Estación '+s.n+'</div><h2>'+s.t+'</h2><div class="badges"><span class="badge '+s.lvl+'">'+s.lvlt+'</span>'+s.meta.map(function(m){return '<span class="badge">'+m+'</span>'}).join("")+'</div></div></div>';
-  h+='<div class="idea"><span class="lab">Si te quedas con una sola idea</span><p>'+s.idea+'</p></div>';
-  h+='<div class="pdfrow"><button class="btn pri" data-pdf="'+s.pdf[0]+'" data-p="'+s.pdf[1]+'">Abrir el texto al lado</button>'+(s.pdf2?'<button class="btn" data-pdf="'+s.pdf2[0]+'" data-p="'+s.pdf2[1]+'">'+s.pdf2[2]+'</button>':'')+(s.resumen?'<a class="btn" href="'+s.resumen+'" target="_blank">Resumen completo</a>':'')+'</div>';
+  h+='<div class="idea"><span class="lab">Problema de la estación</span><p>'+s.idea+'</p></div>';
+  h+='<div class="pdfrow"><button class="btn pri" data-pdf="'+s.pdf[0]+'" data-p="'+s.pdf[1]+'">Abrir el texto al lado</button>'+(s.pdf2?'<button class="btn" data-pdf="'+s.pdf2[0]+'" data-p="'+s.pdf2[1]+'">'+s.pdf2[2]+'</button>':'')+(s.resumen?'<a class="btn" href="'+s.resumen+'" target="_blank">Ficha complementaria</a>':'')+'</div>';
   if(s.paradiso)return h+viewParadiso(s);
-  var tabs=[["entiende","Entiende","1"],["lee","Guía de lectura","2"],["citas","Citas","3"],["comprueba","Comprueba","4"],["notas","Tus notas","5"]];
+  var tabs=[["entiende","Análisis","1"],["lee","Guía de lectura","2"],["citas","Citas y pasajes","3"],["comprueba","Comprueba","4"],["notas","Tus notas","5"]];
   h+=tabsBar(s.id,tabs,tab);
   if(tab==="entiende"){
+    if(typeof analysisHTML==="function")h+=analysisHTML(s.id);
+    h+='<h3 class="analysis-recap">Mapa de conceptos y recorrido</h3>';
     if(s.alert)h+='<div class="alert"><span class="ai">⚑</span><div>'+s.alert+'</div></div>';
     if(s.versus)h+='<div class="versus"><div class="col a"><h4>'+s.versus.a[0]+'</h4><ul>'+s.versus.a[1].map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div><div class="vs">frente a</div><div class="col b"><h4>'+s.versus.b[0]+'</h4><ul>'+s.versus.b[1].map(function(x){return '<li>'+x+'</li>'}).join("")+'</ul></div></div>';
     h+='<div class="card"><h3>Conceptos que vas a encontrar</h3><div class="concepts">'+s.concepts.map(function(c){return '<div class="concept"><b>'+c[0]+'</b><span>'+c[1]+'</span></div>'}).join("")+'</div></div>';
@@ -505,7 +508,8 @@ function viewStation(s){
   } else if(tab==="lee"){
     h+='<div class="card"><h3>Lee con esta guía</h3><p class="muted" style="margin-top:0">Cada tramo dice qué buscar. El botón abre el PDF al lado, en la página.</p><ol class="guide">'+s.guide.map(function(g,i){return '<li><span class="gd">'+(i+1)+'</span><div class="gp">'+g[0]+'</div><div class="gh">'+g[1]+'</div><p class="gx">'+g[2]+'</p>'+pdfBtn(g[4]||s.pdf[0],g[3])+'</li>'}).join("")+'</ol></div>';
   } else if(tab==="citas"){
-    h+=s.quotes.length?quotesHTML(s.quotes):'<div class="card muted">Para esta estación no hay citas seleccionadas. Antes de citar, lee en el PDF.</div>';
+    h+=(typeof analysisSourcesHTML==="function"?analysisSourcesHTML(s.id):"");
+    if(s.quotes.length)h+=quotesHTML(s.quotes);
   } else if(tab==="comprueba"){ h+=flashHTML(s); }
   else if(tab==="notas"){ h+=notesHTML(s); }
   return h+footHTML(s);
@@ -516,12 +520,13 @@ function footHTML(s){
 }
 function viewParadiso(s){
   var t=S.ptab;
-  var tabs=[["vistazo","La novela","1"],["familia","Familia y personajes","2"],["caps","Capítulo a capítulo","3"],["hilos","Hilos","4"],["ponencia","Para tu ponencia","5"],["comprueba","Comprueba","6"],["notas","Tus notas","7"]];
+  var tabs=[["vistazo","Análisis de la novela","1"],["familia","Familia y personajes","2"],["caps","Capítulo a capítulo","3"],["hilos","Hilos","4"],["ponencia","Para tu ponencia","5"],["comprueba","Comprueba","6"],["notas","Tus notas","7"]];
   var h=tabsBar("paradiso",tabs,t);
   if(t==="vistazo"){
+    if(typeof analysisHTML==="function")h+=analysisHTML(s.id);
     h+='<div class="card"><div class="prose"><p><em>Paradiso</em> cuenta la formación de José Cemí, un niño asmático de una familia habanera, desde una crisis de asma a los cinco años hasta el velorio de Oppiano Licario, el maestro que lo espera al final.</p><p>No avanza como una biografía. En la primera mitad Cemí casi no actúa: la novela remonta las dos familias que confluyen en él, los Cemí y los Olaya, con sus muertes, sus comidas y sus frases que se repiten como conjuros. En la segunda, Cemí entra en la Universidad y la novela se vuelve conversación con sus amigos Fronesis y Foción. El capítulo XII suspende la trama con cuatro relatos ajenos. Los dos últimos reúnen todo en Licario, cuya muerte abre, en la última línea, el aprendizaje que la novela no cuenta.</p></div></div>';
     h+='<div class="card"><h3>Los cuatro movimientos</h3><div class="movs">'+P.movs.map(function(m){return '<div style="background:var(--'+MOVC[m[0]]+')"><b>'+m[2]+'</b>Capítulos '+m[1]+'</div>'}).join("")+'</div><p class="muted" style="margin:0">Lee completos los capítulos XII, XIII y XIV (pp. 337-418). El resumen orienta la lectura: coteja completos los capítulos y escenas que sostengan tu argumento.</p></div>';
-    h+='<div class="card"><h3>La edición</h3><p style="margin:0">La Habana, Ediciones Unión, 1966. La edición de referencia recoge el texto definitivo con las notas de Eloísa Lezama Lima: la novela ocupa las pp. 5-418 y las notas las pp. 420-1058. Todas las páginas que se citan aquí son del PDF.</p></div>';
+    h+='<div class="card"><h3>La edición</h3><p style="margin:0">La Habana, Ediciones Unión, 1966. El ejemplar digital de referencia sitúa la novela en las pp. 5–418 y contiene un extenso aparato de notas posterior. La numeración usada aquí corresponde a ese ejemplar y no debe atribuirse automáticamente a la primera edición ni trasladarse a otras ediciones.</p></div>';
   } else if(t==="familia"){
     h+='<div class="tree"><div class="fam c"><h4>Los Cemí</h4><div class="gen"><span class="p">El vasco José María Cemí</span><span class="p">Eloísa</span><span class="arrow">↓</span><span class="p k">José Eugenio, el Coronel</span><span class="p">sus hermanas</span></div><p class="muted" style="font-size:.9rem;margin:8px 0 0">El vasco se dejó morir por orgullo (IV). El Coronel muere a los 33 años (VI).</p></div>';
     h+='<div class="fam o"><h4>Los Olaya</h4><div class="gen"><span class="p">Don Andrés Olaya</span><span class="p">Doña Augusta</span><span class="arrow">↓</span><span class="p k">Rialta</span><span class="p">Alberto</span><span class="p">Andresito</span><span class="p">Carmen</span></div><p class="muted" style="font-size:.9rem;margin:8px 0 0">Andresito muere en Jacksonville (III); Alberto en un choque con un tren (VII); Augusta en el XI.</p></div></div>';
@@ -610,8 +615,9 @@ render();
 <script src="assets/ruta-previews.js?v=de2320437a68"></script>
 <script src="assets/ruta-ampliada.js?v=c3e90206121c"></script>
 <script src="assets/biblioteca-ampliada.js?v=9a2fdbd308d9"></script>
+<script src="assets/analisis-detallado.js?v=9d8bcffa0cfb"></script>
 <script src="assets/ruta-design.js?v=5152090dd892"></script>
-<script src="assets/ruta-atlas.js?v=6ac2d005ec8c"></script>
+<script src="assets/ruta-atlas.js?v=79569b95f033"></script>
 <!-- LOCAL_READER -->
 <script src="assets/edition.js?v=12e79f646508"></script>
 </body>
