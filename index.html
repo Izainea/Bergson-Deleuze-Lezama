@@ -464,7 +464,7 @@ function hoursLeft(){var h=0;ST.forEach(function(s){if(!S.done[s.id]){var m=s.me
 
 function viewMapa(){
   var pct=Math.round(donecount()/ST.length*100), d=daysLeft();
-  var h='<section class="hero"><div class="eyebrow">Seminario Fronteras entre filosofía y literatura · Prof. Adolfo Chaparro</div>';
+  var h='<section class="hero"><div class="eyebrow">Seminario Fronteras entre filosofía y literatura'+(window.RUTA_LOCAL?' · Prof. Adolfo Chaparro':'')+'</div>';
   h+='<h1>Ruta hacia la ponencia</h1>';
   h+='<p class="lead">Deleuze, <em>El bergsonismo</em>, cap. V: «El impulso vital como movimiento de la diferenciación», en diálogo con Lezama Lima y con la multiplicidad de Riemann. Recorre las estaciones en orden: cada una te dice qué leer, te explica lo esencial, te deja comprobar lo que entendiste y guarda tus notas.</p>';
   h+='<div class="stats"><div class="stat prog"><div class="ring" style="--p:'+pct+'"><i>'+pct+'%</i></div><div><b>'+donecount()+' de '+ST.length+'</b><span>estaciones completadas</span></div></div>';

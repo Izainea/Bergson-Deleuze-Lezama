@@ -1,5 +1,7 @@
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
+const os=require('node:os'),pathMod=require('node:path');
+const SHOTS=process.env.RUTA_SHOTS||os.tmpdir();
 (async()=>{
  const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||undefined,args:['--no-sandbox']});
  try {
@@ -51,9 +53,9 @@ const assert=require('node:assert/strict');
  assert.equal(await page.locator('.analysis-section').count(),7);
  await page.setViewportSize({width:390,height:844});
  await page.evaluate(()=>scrollTo(0,0));
- await page.screenshot({path:'/tmp/ruta-analysis-mobile.png'});
+ await page.screenshot({path:pathMod.join(SHOTS,'ruta-analysis-mobile.png')});
  await page.setViewportSize({width:1280,height:900});
- await page.screenshot({path:'/tmp/ruta-analysis-desktop.png'});
+ await page.screenshot({path:pathMod.join(SHOTS,'ruta-analysis-desktop.png')});
  for(const path of ['/.git/config','/.local/paths.json','/assets/../../.local/paths.json','/tools/serve_local.py']) {
    const response=await page.request.get('http://127.0.0.1:8765'+path);
    assert.equal(response.status(),404,path);
@@ -64,19 +66,23 @@ const assert=require('node:assert/strict');
  await page.locator('#vault-password').fill('incorrect-test-password');
  await page.getByRole('button',{name:'Desbloquear',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('#vault-status').textContent.includes('incorrecta'));
- await page.locator('#vault-password').fill(process.env.RUTA_TEST_KEY);
- await page.getByRole('button',{name:'Desbloquear',exact:true}).click();
- await page.locator('[data-vault-read="riemEN"]').click();
- await page.waitForFunction(()=>document.querySelector('.reader-status').textContent.startsWith('Hoja '));
- await page.locator('#reader-next').click();
- await page.waitForFunction(()=>document.querySelector('.reader-status').textContent.startsWith('Hoja 2 de'));
  const manifest=await (await page.request.get('http://127.0.0.1:8765/__local__/manifest')).json();
  assert.equal(Object.keys(manifest.files).length,35);
  assert(Object.values(manifest.files).every(p=>p.startsWith('/__local__/pdf/')));
- await page.setViewportSize({width:390,height:844});
- await page.locator('#reader-lock').click();
- assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ if(process.env.RUTA_TEST_KEY){
+   await page.locator('#vault-password').fill(process.env.RUTA_TEST_KEY);
+   await page.getByRole('button',{name:'Desbloquear',exact:true}).click();
+   await page.locator('[data-vault-read="riemEN"]').click();
+   await page.waitForFunction(()=>document.querySelector('.reader-status').textContent.startsWith('Hoja '));
+   await page.locator('#reader-next').click();
+   await page.waitForFunction(()=>document.querySelector('.reader-status').textContent.startsWith('Hoja 2 de'));
+   await page.setViewportSize({width:390,height:844});
+   await page.locator('#reader-lock').click();
+   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ } else {
+   console.log('OMITIDO: lectura cifrada, paginación y bloqueo (define RUTA_TEST_KEY para probarlos).');
+ }
  assert.equal(errors.length,0,errors.join('\n'));
- console.log('PASS: pública sin PDF ni solicitudes privadas; lector local, clave, paginación, móvil y bloqueo de rutas privadas.');
+ console.log('PASS: pública sin PDF ni solicitudes privadas; lector local'+(process.env.RUTA_TEST_KEY?', clave, paginación, móvil':', clave incorrecta')+' y bloqueo de rutas privadas. Capturas en '+SHOTS);
  } finally {await browser.close();}
 })().catch(e=>{console.error(e);process.exit(1)});

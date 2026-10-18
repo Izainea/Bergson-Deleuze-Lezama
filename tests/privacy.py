@@ -1,6 +1,7 @@
 import json
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,7 +20,7 @@ for name in filter(None, tracked):
 assert not bad, bad
 for rel in ['.local/paths.json','.local/documents/test.pdf','pdf/test.pdf','file.ruta-pdf']:
     assert subprocess.run(['git','check-ignore','-q',rel],cwd=ROOT).returncode == 0, rel
-subprocess.run(['python3','tools/build_public.py'], cwd=ROOT, check=True)
+subprocess.run([sys.executable,'tools/build_public.py'], cwd=ROOT, check=True)
 for p in (ROOT/'dist/public').rglob('*'):
     assert not p.is_symlink()
     assert p.suffix.lower() not in {'.pdf','.bin','.ruta-pdf','.json'}, p
