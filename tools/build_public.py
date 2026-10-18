@@ -1,10 +1,18 @@
 """Exporta únicamente la edición pública mediante una lista de inclusión."""
 from pathlib import Path
 import shutil
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 DEST = ROOT / 'dist' / 'public'
-if DEST.exists():
+for attempt in range(10):
+    try:
+        if DEST.exists():
+            shutil.rmtree(DEST)
+        break
+    except PermissionError:
+        time.sleep(1)  # Dropbox u otro programa puede retener la carpeta un instante.
+else:
     shutil.rmtree(DEST)
 DEST.mkdir(parents=True)
 shutil.copy2(ROOT / 'index.html', DEST / 'index.html')

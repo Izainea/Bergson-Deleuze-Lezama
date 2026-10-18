@@ -19,6 +19,10 @@ El lector solicita una clave de sesión para los archivos cifrados y para guarda
 
 El lector permite páginas, zoom, pantalla completa, exportar/importar copias cifradas y recordar la hoja. Las notas se guardan en el navegador y pueden exportarse. Las páginas impresas pueden diferir de las hojas del archivo: coteja tu edición.
 
+## Tableta Android
+
+`python tools/build_android.py` empaqueta la edición local con tus documentos cifrados en `.local/android/RutaBergson.apk`, para uso personal y sin publicar. El procedimiento, las herramientas y la instalación están en `android/LEEME.md`.
+
 ## Publicar
 
 `python tools/build_public.py` genera `dist/public/` usando una lista explícita de archivos permitidos. Esa carpeta contiene solo la edición pública y no incluye el lector, sus dependencias, documentos, mapas privados ni claves.
